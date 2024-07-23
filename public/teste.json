@@ -1,0 +1,14 @@
+{
+  "ID": "52465785488",
+  "nome": "joão 3",
+  "nascimento": "1999-12-31",
+  "email": "email@email.com",
+  "turno": "TURNO_A",
+  "modalidade": "REMOTO",
+  "contratacao": "2024-10-10",
+  "usuario": {
+    "cpf": "44160635806",
+    "senha": "1234",
+    "tipoDeAcesso": "RH"
+  }
+}
