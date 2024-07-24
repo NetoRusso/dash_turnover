@@ -1,0 +1,30 @@
+[
+  {
+    "id": "137da1d2-00eb-4655-b2dd-3114fff77a33",
+    "nome": "Analista de Pantano",
+    "descricao": "Analisa os misterios do pantano",
+    "cargaHoraria": 40,
+    "salario": 3000.0
+  },
+  {
+    "id": "237ea1d3-11fb-4756-c3ef-4125fff88a44",
+    "nome": "Bióloga de Campo",
+    "descricao": "Estuda a flora e fauna do pantano",
+    "cargaHoraria": 35,
+    "salario": 3200.0
+  },
+  {
+    "id": "347fb2d4-22gc-5867-d4fg-5236ggg99b55",
+    "nome": "Engenheiro Ambiental",
+    "descricao": "Desenvolve projetos ambientais para o pantano",
+    "cargaHoraria": 40,
+    "salario": 3500.0
+  },
+  {
+    "id": "458gc3e5-33hd-6978-e5gh-6347hhh00c66",
+    "nome": "Geóloga",
+    "descricao": "Estuda a geologia do pantano",
+    "cargaHoraria": 38,
+    "salario": 3400.0
+  }
+]

@@ -18,7 +18,7 @@ export default function Header({ nome }) {
               </a>
             </ul>
           </nav>
-          <a class="logoMenuLink" href="#" title="Voltar a home">
+          <a className="logoMenuLink" href="#" title="Voltar a home">
             <img
               className="logoMenu"
               src={Logo}

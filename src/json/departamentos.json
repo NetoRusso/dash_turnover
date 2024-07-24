@@ -1,0 +1,26 @@
+[
+  {
+    "id": "92fa9e2a-eb42-471e-af61-e4e463532363",
+    "nomeDepartamento": "Departamento Pesquisas do Pantano",
+    "localizacao": "Pantano das Moiras",
+    "descricao": "Este departamento realiza pesquisas sobre o bioma pantanoso"
+  },
+  {
+    "id": "02gb9f3b-fc53-582f-bg72-f5f574653474",
+    "nomeDepartamento": "Departamento de Ecologia",
+    "localizacao": "Pantano das Moiras",
+    "descricao": "Este departamento estuda a ecologia dos pantanos"
+  },
+  {
+    "id": "13hcaf4c-hd64-693g-ch83-g6g685764585",
+    "nomeDepartamento": "Departamento de Engenharia Ambiental",
+    "localizacao": "Pantano das Moiras",
+    "descricao": "Este departamento desenvolve projetos ambientais"
+  },
+  {
+    "id": "24idbg5d-id75-794h-di94-h7h796875696",
+    "nomeDepartamento": "Departamento de Geologia",
+    "localizacao": "Pantano das Moiras",
+    "descricao": "Este departamento estuda a geologia dos pantanos"
+  }
+]
