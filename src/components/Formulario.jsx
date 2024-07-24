@@ -228,7 +228,7 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
             </div>
 
             <div class="blocoAddNew">
-              <label for="salario">Carga horária (em horas):</label>
+              <label for="salario">Salário:</label>
               <input
                 class="inputFormDash"
                 type="number"
