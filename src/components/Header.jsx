@@ -2,47 +2,50 @@ import '../styles/ceo.css';
 import Logo from '../img/logo_Turnover.png';
 import LogoCliente from '../img/logo_atma.png';
 import LogoMenu from '../img/iso_tipo_turnover.png';
+import { useState } from 'react';
 
 export default function Header({ nome }) {
+  const [aberto, setAberto] = useState(false);
+
   return (
     <header>
-      <div class="menuDesktop menuDash">
-        <div class="logoMenuBox logoMenuBoxDash">
-          <nav class="navMenuDesktop navMenuDash">
-            <ul class="navLinks navLinksDash">
-              <a class="logoffDash" href="#">
+      <div className="menuDesktop menuDash">
+        <div className="logoMenuBox logoMenuBoxDash">
+          <nav className="navMenuDesktop navMenuDash">
+            <ul className="navLinks navLinksDash">
+              <a className="logoffDash" href="#">
                 Logoff
               </a>
             </ul>
           </nav>
           <a class="logoMenuLink" href="#" title="Voltar a home">
             <img
-              class="logoMenu"
+              className="logoMenu"
               src={Logo}
               alt="Logo da empresa turnover"
             />
           </a>
         </div>
-        <h3 class="saudacaoDash">Olá, {nome}</h3>
+        <h3 className="saudacaoDash">Olá, {nome}</h3>
         <img
           src={LogoCliente}
           alt="logo da Atma"
-          class="logoAtma"
+          className="logoAtma"
         ></img>
       </div>
-      <div class="cabecalhoSaudacaoDash">
-        <h3 class="saudacaoDash">Olá, {nome}</h3>
+      <div className="cabecalhoSaudacaoDash">
+        <h3 className="saudacaoDash">Olá, {nome}</h3>
         <img
           src={LogoCliente}
           alt="logo da Atma"
-          class="logoAtma"
+          className="logoAtma"
         />
       </div>
-      <div class="menuMobile" id="menuMobile">
+      <div onClick={() => setAberto(!aberto)} className={aberto ? "menuMobile active" : "menuMobile"} id="menuMobile">
         <img src={LogoMenu} alt="Menu" />
       </div>
       <nav>
-        <ul class="nav-links">
+        <ul className={aberto ? "nav-links active": "nav-links"}>
           <li>
             <a href="#">Logoff</a>
           </li>
