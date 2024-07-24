@@ -1,11 +1,35 @@
+import { useEffect, useState } from 'react';
 import Header from './components/Header';
-import logo from './img/logo_Turnover_branco.png';
 import './styles/App.css';
+import Teste from './teste.json';
 
 function App() {
+  const [usuario, setUsuario] = useState(null)
+
+  useEffect(() => {
+    async function fetchDate() {
+      const usuario = JSON.parse(localStorage.getItem("login"));
+      localStorage.clear()
+      
+      if (usuario) {
+        const db = Teste
+        setUsuario(db)
+      }
+    }
+
+    fetchDate()
+  }, [])
+
+
   return (
     <>
-      <Header nome={'Milena'} />
+    {
+      usuario && (
+        <>
+          <Header nome={usuario.nome} />
+        </>
+      )
+    }
     </>
   );
 }

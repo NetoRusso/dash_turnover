@@ -5,6 +5,10 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// excluir localstorage
+
+localStorage.setItem("login", JSON.stringify({cpf: "44160635806", senha: "1234"}))
+
 root.render(
   <React.StrictMode>
     <App />
