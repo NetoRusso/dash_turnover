@@ -1,191 +1,41 @@
-HTML:
+html:
 
 
-  <div class="addNewBox addNewFuncionario">
-    <form action="submit" class="addNew addFuncionario" id="addFuncionario">
-
-      <div class="blocoAddNew">
-        <label for="name">Nome:</label>
-        <input class="inputFormDash" type="text" name="name" id="name" placeholder="Nome">
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="cpf">CPF:</label>
-        <input class="inputFormDash" type="text" name="cpf" id="cpf" placeholder="CPF">
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="data">Data de Nascimento:</label>
-        <input class="inputFormDash" type="date" name="data" id="data" placeholder="Data de Nascimento">
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="email">E-mail:</label>
-        <input class="inputFormDash" type="email" name="email" id="email" placeholder="E-mail">
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="turno">Turno:</label>
-        <select class="inputFormDash" name="turno" id="turno">
-          <option value="default">Escolha um turno</option>
-          <option value="TURNO_A">Matutino</option>
-          <option value="TURNO_B">Vespertino</option>
-          <option value="TURNO_C">Noturno</option>
-        </select>
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="Modalidade">Modalidade:</label>
-        <select class="inputFormDash" name="Modalidade" id="Modalidade">
-          <option value="default">Escolha uma modalidade</option>
-          <option value="REMOTO">Remoto</option>
-          <option value="HIBRIDO">Hibrido</option>
-          <option value="PRESENCIAL">Presencial</option>
-        </select>
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="Acesso">Acesso:</label>
-        <select class="inputFormDash" name="Acesso" id="Acesso">
-          <option value="default">Escolha um acesso</option>
-          <option value="GESTOR">Gestor</option>
-          <option value="RH">RH</option>
-          <option value="FUNCIONARIO">Funcionário</option>
-        </select>
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="departamento">Departamento:</label>
-        <select class="inputFormDash" name="departamento" id="departamento">
-          <option value="default">Escolha um departamento</option>
-          <option value="{id_departamento}">{nome_departamento}</option>
-        </select>
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="cargo">Cargo:</label>
-        <select class="inputFormDash" name="cargo" id="cargo">
-          <option value="default">Escolha um cargo</option>
-          <option value="{id_cargo}">{nome_cargo}</option>
-      </div>
-      </select>
-      <button class="btnAddNew">Adicionar Funcionário</button>
-    </form>
-  </div>
-
-  <div class="addNewBox addNewDepartamento">
-    <form action="submit" class="addNew addFuncionario" id="addFuncionario">
-      
-      <div class="blocoAddNew">
-        <label for="name">Nome:</label>
-        <input class="inputFormDash" type="text" name="name" id="name" placeholder="Nome" />
-      </div>
-      
-      <div class="blocoAddNew">
-        <label for="localizacao">Localização:</label>
-        <input class="inputFormDash" type="text" name="localizacao" id="localizacao" placeholder="Nome" />
-      </div>
-      
-      <div class="blocoAddNew">
-        <label for="descricao">Descrição:</label>
-        <input class="inputFormDash" type="text" name="descricao" id="descricao" placeholder="Nome" />
-      </div>
-
-      <button class="btnAddNew">Adicionar Departamento</button>
-    </form>
-  </div>
-
-  
-  <div class="addNewBox addNewCargo">
-    <form action="submit" class="addNew addFuncionario" id="addFuncionario">
-      
-      <div class="blocoAddNew">
-        <label for="name">Nome:</label>
-        <input class="inputFormDash" type="text" name="name" id="name" placeholder="Nome" />
-      </div>
-
-      <div class="blocoAddNew">
-        <label for="descricao">Descrição:</label>
-        <input class="inputFormDash" type="text" name="descricao" id="descricao" placeholder="Nome" />
-      </div>
-      
-      <div class="blocoAddNew">
-        <label for="carga_horaria">Carga horária (em horas):</label>
-        <input class="inputFormDash" type="number" name="carga_horaria" id="carga_horaria" placeholder="Nome" />
-      </div>
-      
-      <div class="blocoAddNew">
-        <label for="salario">Carga horária (em horas):</label>
-        <input class="inputFormDash" type="number" name="salario" id="salario" placeholder="Nome" />
-      </div>
+<div class="conteudoModal">
+		<p class="mensagemModal">
+			Aqui vai a mensagem do tratamento
+		</p>
+		<button class="okMsgModalBtn">ok</button>
+	</div>
 
 
-      
 
-      <button class="btnAddNew">Adicionar cargo</button>
-    </form>
-  </div>
+  Css:
 
-
-CSS:
-
-
-.addNewBox {
-  width: 100%;
-  height: auto;
+  .conteudoModal {
+  width: 300px;
+  height: 450px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 96px 16px;
+  gap: 32px;
+  /* border: solid 1px var(--color-green-1); */
+  padding: 16px;
 }
 
-.addNew {
-  width: 60%;
-  min-width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: first baseline;
-  justify-content: center;
-  gap: 16px;
-}
-
-.blocoAddNew {
+.mensagemModal {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: first baseline;
-  justify-content: center;
-  gap: 8px;
-  margin: 8px 0;
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--color-white);
+  text-align: center;
 }
 
-.blocoAddNew label {
-  font-size: var(--font-size-text-1);
-  color: var(--color-standard);
-}
-
-.inputFormDash {
-  width: 100%;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: var(--wght-bold);
-  border: 5px solid var(--color-green-1);
-  box-shadow: var(--color-green-2) -10px -5px 0 0 ;
-  border-top-right-radius: 30px;
-  border-bottom-left-radius: 15px;
-  outline-color: transparent;
-}
-
-.inputFormDash:focus {
-  border: 8px solid var(--color-green-2);
-  box-shadow: none;
-}
-
-.btnAddNew {
-  width: 150px;
+.okMsgModalBtn {
+  width: 120px;
   padding: 10px;
   font-size: 16px;
   font-weight: var(--wght-bold);
@@ -194,10 +44,9 @@ CSS:
   border: none;
   border-top-right-radius: 30px;
   border-bottom-left-radius: 15px;
-  margin: 16px 0;
 }
 
-.btnAddNew:hover {
+.okMsgModalBtn:hover {
   cursor: pointer;
   background-color: var(--color-green-2);
 }
