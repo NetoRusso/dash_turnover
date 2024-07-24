@@ -88,18 +88,15 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
               <th colSpan="1">Quantidade de funcionarios</th>
             </tr>
             <tbody className="tableBody" id="table_body">
-                {
-                    visualizar && (
-
-              <tr>
-                <td colSpan="2">{visualizar.nome}</td>
-                <td colSpan="5">{visualizar.descricao}</td>
-                <td colSpan="1">{visualizar.cargaHoraria}</td>
-                <td colSpan="1">{visualizar.salario}</td>
-                <td colSpan="1">10</td>
-              </tr>
-                    )
-                }
+              {visualizar && (
+                <tr>
+                  <td colSpan="2">{visualizar.nome}</td>
+                  <td colSpan="5">{visualizar.descricao}</td>
+                  <td colSpan="1">{visualizar.cargaHoraria}</td>
+                  <td colSpan="1">{visualizar.salario}</td>
+                  <td colSpan="1">10</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
