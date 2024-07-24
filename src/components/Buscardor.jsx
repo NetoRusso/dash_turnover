@@ -2,7 +2,8 @@ export default function Buscador({
   nomeTabela,
   tipoAcesso,
   tipoAcao: { nomeAcao, tipo },
-  botaoNovo
+  botaoNovo,
+  botaoVoltar,
 }) {
   return (
     <div className="searchTable">
@@ -26,9 +27,15 @@ export default function Buscador({
       </div>
       {((nomeTabela === "Funcionario" && tipoAcesso !== "GESTOR") ||
         ((nomeTabela === "Departamento" || nomeTabela === "Cargo") &&
-          tipoAcesso === "CEO")) && tipo === 'tabela' && (
-        <button className="addBtn btnStand" id="add_btn" onClick={botaoNovo}>
-          Novo+
+          tipoAcesso === "CEO")) &&
+        tipo === "tabela" && (
+          <button className="addBtn btnStand" id="add_btn" onClick={botaoNovo}>
+            Novo+
+          </button>
+        )}
+      {tipo !== "tabela" && (
+        <button className="addBtn btnStand" id="add_btn" onClick={botaoVoltar}>
+          Voltar
         </button>
       )}
     </div>

@@ -9,6 +9,8 @@ import {
   departamentoBancoDeDados,
   funcionarioBancoDeDados,
 } from "./db";
+import Formulario from "./components/Formulario";
+import TabelaDeVisualizar from "./components/TabelaDeVIsuailizar";
 
 const tabelasGerais = [
   {
@@ -59,6 +61,7 @@ function App() {
   const [indexTabela, setIndexTabela] = useState(0);
   const [dadosTabela, setDadosTabela] = useState([]);
   const [ativo, setAtivo] = useState(0);
+  const [visualizar, setVisualizar] = useState(null);
 
   useEffect(() => {
     async function fetchDate() {
@@ -77,6 +80,11 @@ function App() {
   useEffect(() => {
     setDadosTabela(funcionarioBancoDeDados());
   }, []);
+
+  const vizualizar = (dados) => {
+    setVisualizar(dados)
+    setAtivo(2);
+  }
 
   return (
     <>
@@ -98,6 +106,9 @@ function App() {
                     botaoNovo={() => {
                       setAtivo(1);
                     }}
+                    botaoVoltar={() => {
+                      setAtivo(0);
+                    }}
                   />
                   {acaoPagina[ativo].tipo === "tabela" && (
                     <>
@@ -105,9 +116,10 @@ function App() {
                         tabelaTitulos={tabelasGerais[indexTabela]}
                         tabelaDados={dadosTabela}
                         tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
-                        botaoVisual={() => {
-                          setAtivo(2);
+                        botaoEditar={() => {
+                          setAtivo(3);
                         }}
+                        botaoVisual={vizualizar}
                       />
                       <div className="btnSwitchTable">
                         <button
@@ -148,6 +160,18 @@ function App() {
                       </div>
                     </>
                   )}
+                  {acaoPagina[ativo].tipo === "formulario" && (
+                    <Formulario
+                      nomeTabela={tabelasGerais[indexTabela].nome}
+                      acao={acaoPagina[ativo].nomeAcao}
+                      tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
+                    />
+                  )}
+                  {
+                    acaoPagina[ativo].tipo === "visual" && (
+                      <TabelaDeVisualizar nomeTabela={tabelasGerais[indexTabela].nome} visualizar={visualizar}/>
+                    )
+                  }
                 </>
               )}
             </section>

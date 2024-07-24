@@ -7,6 +7,7 @@ export default function Tabela({
   tabelaDados,
   tipoAcesso,
   botaoVisual,
+  botaoEditar,
 }) {
   return (
     <div className="tableContainer">
@@ -53,7 +54,7 @@ export default function Tabela({
               }
               <td>
                 <button
-                  onClick={botaoVisual}
+                  onClick={() => botaoVisual(dado)}
                   className="btnTabela"
                   disabled={
                     nome === "Departamento" && tipoAcesso === "GESTOR"
@@ -69,7 +70,7 @@ export default function Tabela({
               </td>
               <td>
                 <button
-                  onClick={() => console.log("aqui 2")}
+                  onClick={botaoEditar}
                   className="btnTabela"
                   disabled={(nome === "Departamento" && tipoAcesso !== "CEO") || (nome === "Cargo" && tipoAcesso !== "CEO")}
                 >
