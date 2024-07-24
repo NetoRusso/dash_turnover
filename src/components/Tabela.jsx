@@ -53,6 +53,7 @@ export default function Tabela({
               <td>
                 <button
                   onClick={() => console.log("aqui 1")}
+                  className="btnTabela"
                   disabled={
                     nome === "Departamento" && tipoAcesso === "GESTOR"
                   }
@@ -68,6 +69,7 @@ export default function Tabela({
               <td>
                 <button
                   onClick={() => console.log("aqui 2")}
+                  className="btnTabela"
                   disabled={(nome === "Departamento" && tipoAcesso !== "CEO") || (nome === "Cargo" && tipoAcesso !== "CEO")}
                 >
                   <img
@@ -81,6 +83,7 @@ export default function Tabela({
               <td>
                 <button
                   onClick={() => console.log("aqui 3")}
+                  className="btnTabela"
                   disabled={
                     (nome === "Funcionario" && tipoAcesso === "GESTOR") || (
                       nome === "Departamento" && tipoAcesso !== "CEO"
