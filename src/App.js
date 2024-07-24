@@ -5,7 +5,7 @@ import './styles/App.css';
 function App() {
   return (
     <>
-      <Header nome={'Milena'}/>
+      <Header nome={'Milena'} />
     </>
   );
 }
