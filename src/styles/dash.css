@@ -345,3 +345,13 @@
   background-color: var(--color-green-2);
 }
 
+.modal {
+  position: absolute;
+  inset: 40px;
+  border: 1px solid #555;
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  background-color: rgba(85, 85, 85, 0.8);
+}
