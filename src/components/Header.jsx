@@ -1,4 +1,3 @@
-import '../styles/ceo.css';
 import Logo from '../img/logo_Turnover.png';
 import LogoCliente from '../img/logo_atma.png';
 import LogoMenu from '../img/iso_tipo_turnover.png';

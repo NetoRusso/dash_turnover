@@ -6,6 +6,7 @@ export default function Tabela({
   tabelaTitulos: { titulos, colospan, nome },
   tabelaDados,
   tipoAcesso,
+  botaoVisual,
 }) {
   return (
     <div className="tableContainer">
@@ -26,8 +27,8 @@ export default function Tabela({
               {nome === "Funcionario" && (
                 <>
                   <td colSpan="3">{dado.nome}</td>
-                  <td colSpan="3">{dado.email}</td>
-                  <td colSpan="2">{dado.contratacao}</td>
+                  <td colSpan="3">{dado.contratacao}</td>
+                  <td colSpan="2">{dado.turno}</td>
                   <td colSpan="2">{dado.cargo.nome}</td>
                   <td colSpan="2">{dado.departamento.nomeDepartamento}</td>
                   <td colSpan="2">{dado.cargo.salario}</td>
@@ -52,7 +53,7 @@ export default function Tabela({
               }
               <td>
                 <button
-                  onClick={() => console.log("aqui 1")}
+                  onClick={botaoVisual}
                   className="btnTabela"
                   disabled={
                     nome === "Departamento" && tipoAcesso === "GESTOR"

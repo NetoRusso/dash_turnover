@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
-import "./styles/App.css";
+import "./styles/dash.css";
 import Teste from "./json/login.json";
 import Buscador from "./components/Buscardor";
 import Tabela from "./components/Tabela";
-import Cargo from "./json/cargo.json";
-import Departamentos from "./json/departamentos.json";
-import Funcionarios from "./json/funcionarios.json";
+import {
+  cargoBancoDeDados,
+  departamentoBancoDeDados,
+  funcionarioBancoDeDados,
+} from "./db";
 
 const tabelasGerais = [
   {
     nome: "Funcionario",
     titulos: [
       "Nome Completo",
-      "E-mail",
       "Data de contratação",
+      "Turno",
       "Departamento",
       "Cargo",
       "Salario",
@@ -33,10 +35,30 @@ const tabelasGerais = [
   },
 ];
 
+const acaoPagina = [
+  {
+    nomeAcao: "Tabela",
+    tipo: "tabela",
+  },
+  {
+    nomeAcao: "Adicionando",
+    tipo: "formulario",
+  },
+  {
+    nomeAcao: "Visualizando",
+    tipo: "visual",
+  },
+  {
+    nomeAcao: "Editando",
+    tipo: "formulario",
+  },
+];
+
 function App() {
   const [usuario, setUsuario] = useState(null);
   const [indexTabela, setIndexTabela] = useState(0);
   const [dadosTabela, setDadosTabela] = useState([]);
+  const [ativo, setAtivo] = useState(0);
 
   useEffect(() => {
     async function fetchDate() {
@@ -53,20 +75,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    funcionarioBancoDeDados();
+    setDadosTabela(funcionarioBancoDeDados());
   }, []);
-
-  const departamentoBancoDeDados = () => {
-    setDadosTabela(Departamentos);
-  };
-
-  const cargoBancoDeDados = () => {
-    setDadosTabela(Cargo);
-  };
-
-  const funcionarioBancoDeDados = () => {
-    setDadosTabela(Funcionarios);
-  };
 
   return (
     <>
@@ -84,37 +94,60 @@ function App() {
                   <Buscador
                     nomeTabela={tabelasGerais[indexTabela].nome}
                     tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
+                    tipoAcao={acaoPagina[ativo]}
+                    botaoNovo={() => {
+                      setAtivo(1);
+                    }}
                   />
-                  <Tabela
-                    tabelaTitulos={tabelasGerais[indexTabela]}
-                    tabelaDados={dadosTabela}
-                    tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
-                  />
-                  <div className="btnSwitchTable">
-                    <button
-                      className="btnSwitchTableBtn btnStand"
-                      id="btn_switch_table_funcionarios"
-                      onClick={() => {if (indexTabela !== 0) { setIndexTabela(0);  funcionarioBancoDeDados()}}}
-                    >
-                      Tabela Funcionários
-                    </button>
-                    {usuario.usuario.tipoDeAcessoEnum !== "GESTOR" && (
-                      <button
-                        className="btnSwitchTableBtn btnStand"
-                        id="btn_switch_table_departamentos"
-                        onClick={() => {if (indexTabela !== 1) { setIndexTabela(1);  departamentoBancoDeDados()}}}
-                      >
-                        Tabela Departamentos
-                      </button>
-                    )}
-                    <button
-                      className="btnSwitchTableBtn btnStand"
-                      id="btn_switch_table_cargos"
-                      onClick={() => {if (indexTabela !== 2) { setIndexTabela(2);  cargoBancoDeDados()}}}
-                    >
-                      Tabela Cargos
-                    </button>
-                  </div>
+                  {acaoPagina[ativo].tipo === "tabela" && (
+                    <>
+                      <Tabela
+                        tabelaTitulos={tabelasGerais[indexTabela]}
+                        tabelaDados={dadosTabela}
+                        tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
+                        botaoVisual={() => {
+                          setAtivo(2);
+                        }}
+                      />
+                      <div className="btnSwitchTable">
+                        <button
+                          className="btnSwitchTableBtn btnStand"
+                          id="btn_switch_table_funcionarios"
+                          disabled={indexTabela === 0}
+                          onClick={() => {
+                            setIndexTabela(0);
+                            setDadosTabela(funcionarioBancoDeDados());
+                          }}
+                        >
+                          Tabela Funcionários
+                        </button>
+                        {usuario.usuario.tipoDeAcessoEnum !== "GESTOR" && (
+                          <button
+                            className="btnSwitchTableBtn btnStand"
+                            id="btn_switch_table_departamentos"
+                            disabled={indexTabela === 1}
+                            onClick={() => {
+                              setIndexTabela(1);
+                              setDadosTabela(departamentoBancoDeDados());
+                            }}
+                          >
+                            Tabela Departamentos
+                          </button>
+                        )}
+                        <button
+                          className="btnSwitchTableBtn btnStand"
+                          id="btn_switch_table_cargos"
+                          disabled={indexTabela === 2}
+                          onClick={() => {
+                            setIndexTabela(2);
+                            setDadosTabela(cargoBancoDeDados());
+                          }}
+                        >
+                          Tabela Cargos
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </section>
