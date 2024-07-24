@@ -150,6 +150,11 @@
   background-color: var(--color-green-2);
 }
 
+.btnStand:disabled {
+  cursor: not-allowed;
+  background-color: var(--color-green-2);
+}
+
 .tableContainer {
   width: 90%;
   min-width: 320px;
