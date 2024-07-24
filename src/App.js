@@ -11,6 +11,7 @@ import {
 } from "./db";
 import Formulario from "./components/Formulario";
 import TabelaDeVisualizar from "./components/TabelaDeVIsuailizar";
+import ModalExcluir from "./components/ModalExcluir";
 
 const tabelasGerais = [
   {
@@ -62,6 +63,7 @@ function App() {
   const [dadosTabela, setDadosTabela] = useState([]);
   const [ativo, setAtivo] = useState(0);
   const [visualizar, setVisualizar] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     async function fetchDate() {
@@ -82,9 +84,14 @@ function App() {
   }, []);
 
   const vizualizar = (dados) => {
-    setVisualizar(dados)
+    setVisualizar(dados);
     setAtivo(2);
-  }
+  };
+
+  const botaoExcluir = (dados) => {
+    setVisualizar(dados);
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -112,6 +119,12 @@ function App() {
                   />
                   {acaoPagina[ativo].tipo === "tabela" && (
                     <>
+                      <ModalExcluir
+                        open={modalIsOpen}
+                        nomeTabela={tabelasGerais[indexTabela].nome}
+                        nome={visualizar ? visualizar : ""}
+                        botaoCancelar={() => setIsOpen(false)}
+                      />
                       <Tabela
                         tabelaTitulos={tabelasGerais[indexTabela]}
                         tabelaDados={dadosTabela}
@@ -120,6 +133,7 @@ function App() {
                           setAtivo(3);
                         }}
                         botaoVisual={vizualizar}
+                        botaoExcluir={botaoExcluir}
                       />
                       <div className="btnSwitchTable">
                         <button
@@ -167,11 +181,12 @@ function App() {
                       tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
                     />
                   )}
-                  {
-                    acaoPagina[ativo].tipo === "visual" && (
-                      <TabelaDeVisualizar nomeTabela={tabelasGerais[indexTabela].nome} visualizar={visualizar}/>
-                    )
-                  }
+                  {acaoPagina[ativo].tipo === "visual" && (
+                    <TabelaDeVisualizar
+                      nomeTabela={tabelasGerais[indexTabela].nome}
+                      visualizar={visualizar}
+                    />
+                  )}
                 </>
               )}
             </section>
