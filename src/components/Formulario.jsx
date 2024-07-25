@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { pegaDataAtualDoContrato, mascaraCPF } from "../util";
-import { createFuncionarioBancoDeDados } from "../db";
+import { createFuncionarioBancoDeDados, createDepartamentoBancoDeDados } from "../db";
 
 export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
   const [novoFuncionario, setNovoFuncionario] = useState({
@@ -17,10 +17,24 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
     }
   })
 
+
+  const [novoDepartamento, setNovoDepartamento] = useState({
+    departamento: {
+      nome: '',
+      localizacao: '',
+      descricao: '',
+    }
+  })
+
   console.log(novoFuncionario);
 
   const createFuncionario = async () => {
     const create = await createFuncionarioBancoDeDados({ ...novoFuncionario });
+    console.log(create)
+  }
+
+  const createDepartamento = async () => {
+    const create = await createDepartamentoBancoDeDados({ ...novoDepartamento });
     console.log(create)
   }
 
@@ -181,6 +195,9 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
             action="submit"
             class="addNew addFuncionario"
             id="addFuncionario"
+            onSubmit={(e) => { e.preventDefault(); if (acao === "Adicionando") {
+              createDepartamento()
+            } }}
           >
             <div class="blocoAddNew">
               <label for="name">Nome:</label>
