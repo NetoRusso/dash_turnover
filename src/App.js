@@ -155,9 +155,9 @@ function App() {
                           className="btnSwitchTableBtn btnStand"
                           id="btn_switch_table_funcionarios"
                           disabled={indexTabela === 0}
-                          onClick={() => {
+                          onClick={async () => {
                             setIndexTabela(0);
-                            setDadosTabela(funcionarioBancoDeDados());
+                            setDadosTabela(await funcionarioBancoDeDados());
                           }}
                         >
                           Tabela Funcionários
@@ -194,6 +194,10 @@ function App() {
                       nomeTabela={tabelasGerais[indexTabela].nome}
                       acao={acaoPagina[ativo].nomeAcao}
                       tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
+                      botaoConfirmandoFuncionario={async () => {
+                        setAtivo(0);
+                        setDadosTabela(await funcionarioBancoDeDados());
+                      }}
                     />
                   )}
                   {acaoPagina[ativo].tipo === "visual" && (

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { pegaDataAtualDoContrato, mascaraCPF } from "../util";
 import { createFuncionarioBancoDeDados } from "../db";
+import ModalMensagem from "./ModalMensagem";
 
-export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
+export default function Formulario({ nomeTabela, acao, tipoAcesso, botaoConfirmandoFuncionario }) {
   const [novoFuncionario, setNovoFuncionario] = useState({
     contratacao: pegaDataAtualDoContrato(),
     email: '',
@@ -16,6 +17,9 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
       senha: '1234'
     }
   })
+  const [mensgem, setMensagem] = useState('')
+  const [modalIsOpen, setIsOpen] = useState(false);
+
 
   const createFuncionario = async () => {
     const create = await createFuncionarioBancoDeDados({ 
@@ -24,11 +28,19 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
       turno: novoFuncionario.turno === "" ? "TURNO_A" : novoFuncionario.turno,
       usuario: { ...novoFuncionario.usuario, tipoDeAcesso: novoFuncionario.usuario.tipoDeAcesso === "" ? "FUNCIONARIO" : novoFuncionario.usuario.tipoDeAcesso} 
     });
-    console.log(create)
+    
+    if (!create.ok) {
+      setMensagem(create.mensagem)
+    }
+
+    if (create.ok) {
+      setIsOpen(true)
+    }
   }
 
   return (
     <>
+      <ModalMensagem open={modalIsOpen} nome={nomeTabela} botaoConfirmandoFuncionario={botaoConfirmandoFuncionario} fecharModal={() => setIsOpen(false)} />
       {nomeTabela === "Funcionario" && (
         <div className="addNewBox addNewFuncionario">
           <form
@@ -177,6 +189,11 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
             {acao === "Editando" && (
               <button className="btnAddNew">Editando Funcionário</button>
             )}
+            {
+              mensgem !== "" && (
+                <p>{mensgem}</p>
+              )
+            }
           </form>
         </div>
       )}

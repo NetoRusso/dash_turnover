@@ -23,8 +23,6 @@ export const funcionarioBancoDeDados = async () => {
   return funcionario;
 };
 
-// res.status === 200 ? `Funcionario cadastrado com sucesso` : 'funcionario não cadastrado'
-
 export const createFuncionarioBancoDeDados = async (funcionario) => {
     if (!cpf.isValid(funcionario.usuario.cpf)) {
       return {mensagem: 'CPF inválido', ok: false }
