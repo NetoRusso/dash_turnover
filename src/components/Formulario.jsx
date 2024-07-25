@@ -2,6 +2,7 @@ import { useState } from "react";
 import { pegaDataAtualDoContrato, mascaraCPF } from "../util";
 import { createFuncionarioBancoDeDados } from "../db";
 import ModalMensagem from "./ModalMensagem";
+import { createFuncionarioBancoDeDados, createDepartamentoBancoDeDados } from "../db";
 
 export default function Formulario({ nomeTabela, acao, tipoAcesso, botaoConfirmandoFuncionario }) {
   const [novoFuncionario, setNovoFuncionario] = useState({
@@ -21,6 +22,16 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso, botaoConfirma
   const [modalIsOpen, setIsOpen] = useState(false);
 
 
+
+  const [novoDepartamento, setNovoDepartamento] = useState({
+    departamento: {
+      nome: '',
+      localizacao: '',
+      descricao: '',
+    }
+  })
+
+
   const createFuncionario = async () => {
     const create = await createFuncionarioBancoDeDados({ 
       ...novoFuncionario,
@@ -36,6 +47,11 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso, botaoConfirma
     if (create.ok) {
       setIsOpen(true)
     }
+  }
+
+  const createDepartamento = async () => {
+    const create = await createDepartamentoBancoDeDados({ ...novoDepartamento });
+    console.log(create)
   }
 
   return (
@@ -203,6 +219,9 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso, botaoConfirma
             action="submit"
             class="addNew addFuncionario"
             id="addFuncionario"
+            onSubmit={(e) => { e.preventDefault(); if (acao === "Adicionando") {
+              createDepartamento()
+            } }}
           >
             <div class="blocoAddNew">
               <label for="name">Nome:</label>
