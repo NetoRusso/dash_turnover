@@ -39,24 +39,25 @@ export const funcionarioBancoDeDados = async () => {
   return funcionario;
 };
 
-
+// res.status === 200 ? `Funcionario cadastrado com sucesso` : 'funcionario não cadastrado'
 
 export const createFuncionarioBancoDeDados = async (funcionario) => {
-  if (!cpf.isValid(funcionario.usuario.cpf)) {
-    return 'CPF inválido'
-  }
+    if (!cpf.isValid(funcionario.usuario.cpf)) {
+      return {mensagem: 'CPF inválido', ok: false }
+    }
 
-  const login = await loginBancoDeDados(funcionario.usuario.cpf, authBancoDeDados)
+    const login = await loginBancoDeDados(funcionario.usuario.cpf, authBancoDeDados)
+  
+    if (login) { 
+      return {mensagem: 'Usuario já cadastrado', ok: false }
+    }
+  
+    const createFuncionario = await fetch("http://localhost:8080/funcionario/salvar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json","Authorization": `Basic ${authBancoDeDados}` },
+      body: JSON.stringify(funcionario)
+    }).then(res => res.ok ? {mensagem: `Funcionario cadastrado com sucesso`, ok: true } : {mensagem: 'funcionario não cadastrado', ok: false }).catch(err => console.log(err));
 
-  if (login) {
-    return 'Usuario já cadastrado'
-  }
-
-  const createFuncionario = await fetch("http://localhost:8080/funcionario/salvar", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
-    body: JSON.stringify(funcionario)
-  }).then(res => res.status === 200 ? `Funcionario cadastrado com sucesso` : 'funcionario não cadastrado').catch(err => console.log(err));
 
   return createFuncionario;
 };

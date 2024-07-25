@@ -6,12 +6,12 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
   const [novoFuncionario, setNovoFuncionario] = useState({
     contratacao: pegaDataAtualDoContrato(),
     email: '',
-    modalidade: 'PRESENCIAL',
+    modalidade: '',
     nascimento: '',
     nome: '',
-    turno: 'TURNO_A',
+    turno: '',
     usuario: {
-      tipoDeAcesso: 'FUNCIONARIO',
+      tipoDeAcesso: '',
       cpf: '',
       senha: '1234'
     }
@@ -29,7 +29,12 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
   console.log(novoFuncionario);
 
   const createFuncionario = async () => {
-    const create = await createFuncionarioBancoDeDados({ ...novoFuncionario });
+    const create = await createFuncionarioBancoDeDados({ 
+      ...novoFuncionario,
+      modalidade: novoFuncionario.modalidade === "" ? 'PRESENCIAL' : novoFuncionario.modalidade,
+      turno: novoFuncionario.turno === "" ? "TURNO_A" : novoFuncionario.turno,
+      usuario: { ...novoFuncionario.usuario, tipoDeAcesso: novoFuncionario.usuario.tipoDeAcesso === "" ? "FUNCIONARIO" : novoFuncionario.usuario.tipoDeAcesso} 
+    });
     console.log(create)
   }
 
@@ -46,9 +51,11 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
             action="submit"
             className="addNew addFuncionario"
             id="addFuncionario"
-            onSubmit={(e) => { e.preventDefault(); if (acao === "Adicionando") {
-              createFuncionario()
-            } }}
+            onSubmit={(e) => {
+              e.preventDefault(); if (acao === "Adicionando") {
+                createFuncionario()
+              }
+            }}
           >
             <div className="blocoAddNew">
               <label for="name">Nome:</label>
@@ -120,7 +127,7 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
                 value={novoFuncionario.turno}
                 onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
               >
-                <option value="TURNO_A">Escolha um turno</option>
+                <option value="">Escolha um turno</option>
                 <option value="TURNO_A">Matutino</option>
                 <option value="TURNO_B">Vespertino</option>
                 <option value="TURNO_C">Noturno</option>
@@ -137,7 +144,7 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
                 value={novoFuncionario.modalidade}
                 onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
               >
-                <option value="PRESENCIAL">Escolha uma modalidade</option>
+                <option value="">Escolha uma modalidade</option>
                 <option value="REMOTO">Remoto</option>
                 <option value="HIBRIDO">Hibrido</option>
                 <option value="PRESENCIAL">Presencial</option>
@@ -155,7 +162,7 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
                 onChange={(e) => { setNovoFuncionario({ ...novoFuncionario, usuario: { ...novoFuncionario.usuario, [e.target.name]: e.target.value } }); }}
                 required
               >
-                <option value="FUNCIONARIO">Escolha um acesso</option>
+                <option value="">Escolha um acesso</option>
                 <option value="GESTOR">Gestor</option>
                 <option value="RH">RH</option>
                 <option value="FUNCIONARIO">Funcionário</option>
