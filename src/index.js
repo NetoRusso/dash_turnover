@@ -7,7 +7,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // excluir localstorage
 
-localStorage.setItem("login", JSON.stringify({cpf: "122.830.627-30", senha: "1234"}))
+localStorage.setItem("user", JSON.stringify({auth: "MDAxLjIzNi45NTAtMDc6MTIzNA==", cpf:  "001.236.950-07"}))
 
 root.render(
   <React.StrictMode>

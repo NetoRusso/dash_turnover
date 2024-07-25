@@ -13,3 +13,15 @@ export  const cargoBancoDeDados = () => {
 export const funcionarioBancoDeDados = () => {
     return Funcionarios;
 };
+
+export const loginBancoDeDados = async (cpf, auth) => {
+    const login =  await fetch(`http://localhost:8080/funcionario/cpf/${cpf}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Basic ${auth}`
+        }
+    }).then(res => res.json()).catch(err => console.log(err));
+
+    return login;
+}

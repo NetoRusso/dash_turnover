@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import "./styles/dash.css";
-import Teste from "./json/login.json";
 import Buscador from "./components/Buscardor";
 import Tabela from "./components/Tabela";
 import {
   cargoBancoDeDados,
   departamentoBancoDeDados,
   funcionarioBancoDeDados,
+  loginBancoDeDados,
 } from "./db";
 import Formulario from "./components/Formulario";
 import TabelaDeVisualizar from "./components/TabelaDeVIsuailizar";
@@ -64,15 +64,24 @@ function App() {
   const [ativo, setAtivo] = useState(0);
   const [visualizar, setVisualizar] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [formularioFuncionario, setFormularioFuncionario] = useState({
+    
+  });
 
   useEffect(() => {
     async function fetchDate() {
-      const usuario = JSON.parse(localStorage.getItem("login"));
-      localStorage.clear();
+      const local = JSON.parse(localStorage.getItem("user"));
+  
+      if (local) {   
+        const db = await loginBancoDeDados(local.cpf, local.auth);
 
-      if (usuario) {
-        const db = Teste;
-        setUsuario(db);
+        if (db && 'nome' in db) {
+          setUsuario(db);
+        } else {
+          window.location.pathname = "../login.html";
+        }
+      } else {
+        window.location.pathname = "../login.html";
       }
     }
 
