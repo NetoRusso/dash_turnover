@@ -1,27 +1,61 @@
 import Cargo from "../json/cargo.json";
 import Departamentos from "../json/departamentos.json";
 import Funcionarios from "../json/funcionarios.json";
+import { cpf } from 'cpf-cnpj-validator'; 
+
+let authBancoDeDados;
+let cpfBancoDeDados;
 
 export const departamentoBancoDeDados = () => {
-    return Departamentos;
+  return Departamentos;
 };
 
-export  const cargoBancoDeDados = () => {
-    return Cargo;
+export const cargoBancoDeDados = () => {
+  return Cargo;
 };
 
-export const funcionarioBancoDeDados = () => {
-    return Funcionarios;
+export const funcionarioBancoDeDados = async () => {
+  const funcionario = await fetch("http://localhost:8080/funcionario", {
+    method: "GET",
+    headers: { "Content-Type": "application/json","Authorization": `Basic ${authBancoDeDados}` }
+  }).then(res => res.json()).then(res => res.filter(e => e.usuario.tipoDeAcessoEnum !== "CEO")).catch(err => console.log(err));
+
+  return funcionario;
 };
+
+export const createFuncionarioBancoDeDados = async (funcionario) => {
+    if (!cpf.isValid(funcionario.usuario.cpf)) {
+      return 'CPF inválido'
+    }
+
+    const login = await loginBancoDeDados(funcionario.usuario.cpf, authBancoDeDados)
+  
+    if (login) { 
+      return 'Usuario já cadastrado'
+    }
+  
+    const createFuncionario = await fetch("http://localhost:8080/funcionario/salvar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json","Authorization": `Basic ${authBancoDeDados}` },
+      body: JSON.stringify(funcionario)
+    }).then(res => res.status === 200 ? `Funcionario cadastrado com sucesso` : 'funcionario não cadastrado').catch(err => console.log(err));
+
+    return createFuncionario;
+}
 
 export const loginBancoDeDados = async (cpf, auth) => {
-    const login =  await fetch(`http://localhost:8080/funcionario/cpf/${cpf}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Basic ${auth}`
-        }
-    }).then(res => res.json()).catch(err => console.log(err));
-
-    return login;
+  const login = await fetch(`http://localhost:8080/funcionario/cpf/${cpf}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Basic ${auth}`
+    }
+  }).then(res => res.json()).catch(err => console.log(err));
+  
+  authBancoDeDados = auth;
+  cpfBancoDeDados = cpf;
+  
+  if (login)   {
+    return {...login, auth: auth};
+  }
 }

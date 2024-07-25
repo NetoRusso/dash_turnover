@@ -1,4 +1,29 @@
+import { useState } from "react";
+import { pegaDataAtualDoContrato, mascaraCPF } from "../util";
+import { createFuncionarioBancoDeDados } from "../db";
+
 export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
+  const [novoFuncionario, setNovoFuncionario] = useState({
+    contratacao: pegaDataAtualDoContrato(),
+    email: '',
+    modalidade: 'PRESENCIAL',
+    nascimento: '',
+    nome: '',
+    turno: 'TURNO_A',
+    usuario: {
+      tipoDeAcesso: 'FUNCIONARIO',
+      cpf: '',
+      senha: '1234'
+    }
+  })
+
+  console.log(novoFuncionario);
+
+  const createFuncionario = async () => {
+    const create = await createFuncionarioBancoDeDados({ ...novoFuncionario });
+    console.log(create)
+  }
+
   return (
     <>
       {nomeTabela === "Funcionario" && (
@@ -7,13 +32,18 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
             action="submit"
             className="addNew addFuncionario"
             id="addFuncionario"
+            onSubmit={(e) => { e.preventDefault(); if (acao === "Adicionando") {
+              createFuncionario()
+            } }}
           >
             <div className="blocoAddNew">
               <label for="name">Nome:</label>
               <input
                 className="inputFormDash"
                 type="text"
-                name="name"
+                name="nome"
+                value={novoFuncionario.nome}
+                onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
                 id="name"
                 placeholder="Nome"
                 disabled={tipoAcesso === "GESTOR"}
@@ -29,6 +59,9 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
                 name="cpf"
                 id="cpf"
                 placeholder="CPF"
+                value={novoFuncionario.usuario.cpf}
+                maxLength="14"
+                onChange={(e) => { setNovoFuncionario({ ...novoFuncionario, usuario: { ...novoFuncionario.usuario, [e.target.name]: mascaraCPF(e.target.value) } }); }}
                 disabled={acao === "Editando"}
                 required
               />
@@ -39,7 +72,9 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
               <input
                 className="inputFormDash"
                 type="date"
-                name="data"
+                name="nascimento"
+                value={novoFuncionario.nascimento}
+                onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
                 id="data"
                 placeholder="Data de Nascimento"
                 disabled={acao === "Editando"}
@@ -53,6 +88,8 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
                 className="inputFormDash"
                 type="email"
                 name="email"
+                value={novoFuncionario.email}
+                onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
                 id="email"
                 placeholder="E-mail"
                 disabled={tipoAcesso === "GESTOR"}
@@ -66,8 +103,10 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
                 name="turno"
                 id="turno"
                 disabled={acao === "Editando" && tipoAcesso !== "GESTOR"}
+                value={novoFuncionario.turno}
+                onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
               >
-                <option value="default">Escolha um turno</option>
+                <option value="TURNO_A">Escolha um turno</option>
                 <option value="TURNO_A">Matutino</option>
                 <option value="TURNO_B">Vespertino</option>
                 <option value="TURNO_C">Noturno</option>
@@ -75,14 +114,16 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
             </div>
 
             <div className="blocoAddNew">
-              <label for="Modalidade">Modalidade:</label>
+              <label for="modalidade">Modalidade:</label>
               <select
                 className="inputFormDash"
-                name="Modalidade"
-                id="Modalidade"
+                name="modalidade"
+                id="modalidade"
                 disabled={tipoAcesso === "GESTOR"}
+                value={novoFuncionario.modalidade}
+                onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
               >
-                <option value="default">Escolha uma modalidade</option>
+                <option value="PRESENCIAL">Escolha uma modalidade</option>
                 <option value="REMOTO">Remoto</option>
                 <option value="HIBRIDO">Hibrido</option>
                 <option value="PRESENCIAL">Presencial</option>
@@ -90,15 +131,17 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
             </div>
 
             <div className="blocoAddNew">
-              <label for="Acesso">Acesso:</label>
+              <label for="tipoDeAcesso">Acesso:</label>
               <select
                 className="inputFormDash"
-                name="Acesso"
-                id="Acesso"
+                name="tipoDeAcesso"
+                id="tipoDeAcesso"
                 disabled={tipoAcesso === "GESTOR"}
+                value={novoFuncionario.usuario.tipoDeAcesso}
+                onChange={(e) => { setNovoFuncionario({ ...novoFuncionario, usuario: { ...novoFuncionario.usuario, [e.target.name]: e.target.value } }); }}
                 required
               >
-                <option value="default">Escolha um acesso</option>
+                <option value="FUNCIONARIO">Escolha um acesso</option>
                 <option value="GESTOR">Gestor</option>
                 <option value="RH">RH</option>
                 <option value="FUNCIONARIO">Funcionário</option>
@@ -124,7 +167,7 @@ export default function Formulario({ nomeTabela, acao, tipoAcesso }) {
               </select>
             </div>
             {acao === "Adicionando" && (
-              <button className="btnAddNew">Adicionar Funcionário</button>
+              <button type="submit" className="btnAddNew">Adicionar Funcionário</button>
             )}
             {acao === "Editando" && (
               <button className="btnAddNew">Editando Funcionário</button>

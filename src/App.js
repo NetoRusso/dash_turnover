@@ -58,15 +58,13 @@ const acaoPagina = [
 ];
 
 function App() {
+  const [inicio, setInicio] = useState(true);
   const [usuario, setUsuario] = useState(null);
   const [indexTabela, setIndexTabela] = useState(0);
   const [dadosTabela, setDadosTabela] = useState([]);
   const [ativo, setAtivo] = useState(0);
   const [visualizar, setVisualizar] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [formularioFuncionario, setFormularioFuncionario] = useState({
-    
-  });
 
   useEffect(() => {
     async function fetchDate() {
@@ -88,9 +86,17 @@ function App() {
     fetchDate();
   }, []);
 
+  
   useEffect(() => {
-    setDadosTabela(funcionarioBancoDeDados());
-  }, []);
+    async function fetchData() {  
+      setDadosTabela(await funcionarioBancoDeDados());
+    }
+  
+    if (usuario !== null && inicio) {
+      fetchData();
+      setInicio(false);
+    }
+  }, [usuario, inicio]);
 
   const vizualizar = (dados) => {
     setVisualizar(dados);
