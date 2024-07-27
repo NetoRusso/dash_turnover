@@ -95,11 +95,11 @@ export default function Formulario({
         case 'Funcionario':
           console.log(novo)
           setId(id)
-        break;
+          break;
         case 'Departamento':
           setNovoDepartamento({ ...novo });
           setId(id)
-        break;
+          break;
         case 'Cargo':
           setNovoCargo({
             ...novo, salario: mascaraDinheiro(novo.salario.toLocaleString('pt-BR', {
@@ -108,7 +108,7 @@ export default function Formulario({
             }))
           });
           setId(id)
-        break;
+          break;
       }
     }
 
@@ -308,7 +308,7 @@ export default function Formulario({
               >
                 <option value="default">Escolha um departamento</option>
                 {
-                  allDepartamento.map(({id, nomeDepartamento}) => (
+                  allDepartamento.map(({ id, nomeDepartamento }) => (
                     <option value={id}>{nomeDepartamento}</option>
                   ))
                 }
@@ -327,7 +327,7 @@ export default function Formulario({
               >
                 <option value="default">Escolha um cargo</option>
                 {
-                  allCargo.map(({id, nome}) => (
+                  allCargo.map(({ id, nome }) => (
                     <option value={id}>{nome}</option>
                   ))
                 }
