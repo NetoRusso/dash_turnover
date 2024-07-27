@@ -75,7 +75,7 @@ export default function Tabela({
                     </td>
                     <td>
                       <button
-                        onClick={botaoEditar}
+                        onClick={() => botaoEditar(dado)}
                         className="btnTabela"
                         disabled={(nome === "Departamento" && tipoAcesso !== "CEO") || (nome === "Cargo" && tipoAcesso !== "CEO")}
                       >

@@ -4,9 +4,9 @@ import "./styles/dash.css";
 import Buscador from "./components/Buscardor";
 import Tabela from "./components/Tabela";
 import {
-  cargoBancoDeDados,
-  departamentoBancoDeDados,
-  funcionarioBancoDeDados,
+  getAllCargoBancoDeDados,
+  getAllDepartamentoBancoDeDados,
+  getAllFuncionarioBancoDeDados,
   loginBancoDeDados,
 } from "./db";
 import Formulario from "./components/Formulario";
@@ -89,7 +89,7 @@ function App() {
   
   useEffect(() => {
     async function fetchData() {  
-      setDadosTabela(await funcionarioBancoDeDados());
+      setDadosTabela(await getAllFuncionarioBancoDeDados());
     }
   
     if (usuario !== null && inicio) {
@@ -106,6 +106,11 @@ function App() {
   const botaoExcluir = (dados) => {
     setVisualizar(dados);
     setIsOpen(true);
+  };
+
+  const botaoEditar = (dados) => {
+    setVisualizar(dados);
+    setAtivo(3);
   };
 
   return (
@@ -144,9 +149,7 @@ function App() {
                         tabelaTitulos={tabelasGerais[indexTabela]}
                         tabelaDados={dadosTabela}
                         tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
-                        botaoEditar={() => {
-                          setAtivo(3);
-                        }}
+                        botaoEditar={botaoEditar}
                         botaoVisual={vizualizar}
                         botaoExcluir={botaoExcluir}
                       />
@@ -156,8 +159,8 @@ function App() {
                           id="btn_switch_table_funcionarios"
                           disabled={indexTabela === 0}
                           onClick={async () => {
+                            setDadosTabela(await getAllFuncionarioBancoDeDados());
                             setIndexTabela(0);
-                            setDadosTabela(await funcionarioBancoDeDados());
                           }}
                         >
                           Tabela Funcionários
@@ -167,9 +170,9 @@ function App() {
                             className="btnSwitchTableBtn btnStand"
                             id="btn_switch_table_departamentos"
                             disabled={indexTabela === 1}
-                            onClick={() => {
+                            onClick={async () => {
+                              setDadosTabela(await getAllDepartamentoBancoDeDados());
                               setIndexTabela(1);
-                              setDadosTabela(departamentoBancoDeDados());
                             }}
                           >
                             Tabela Departamentos
@@ -179,9 +182,9 @@ function App() {
                           className="btnSwitchTableBtn btnStand"
                           id="btn_switch_table_cargos"
                           disabled={indexTabela === 2}
-                          onClick={() => {
+                          onClick={async () => {
+                            setDadosTabela(await getAllCargoBancoDeDados());
                             setIndexTabela(2);
-                            setDadosTabela(cargoBancoDeDados());
                           }}
                         >
                           Tabela Cargos
@@ -195,9 +198,18 @@ function App() {
                       acao={acaoPagina[ativo].nomeAcao}
                       tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
                       botaoConfirmandoFuncionario={async () => {
+                        setDadosTabela(await getAllFuncionarioBancoDeDados());
                         setAtivo(0);
-                        setDadosTabela(await funcionarioBancoDeDados());
                       }}
+                      botaoConfirmandoDepartamento={async () => {
+                        setDadosTabela(await getAllDepartamentoBancoDeDados());
+                        setAtivo(0);
+                      }}
+                      botaoConfirmandoCargo={async () => {
+                        setDadosTabela(await getAllCargoBancoDeDados())
+                        setAtivo(0);
+                      }}
+                      editar={visualizar}
                     />
                   )}
                   {acaoPagina[ativo].tipo === "visual" && (
