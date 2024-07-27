@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { pegaDataAtualDoContrato, mascaraCPF, removeDigitos, mascaraDinheiro, transformarMascaraDeDinheiroParaFloat, formatoFuncionarioParaAlterar } from "../util";
 import ModalMensagem from "./ModalMensagem";
-import { createFuncionarioBancoDeDados, createDepartamentoBancoDeDados, createCargoBancoDeDados, updateCargoBancoDeDados, updateDepartamentoBancoDeDados, getAllDepartamentoBancoDeDados, getAllCargoBancoDeDados } from "../db";
+import { createFuncionarioBancoDeDados, createDepartamentoBancoDeDados, createCargoBancoDeDados, updateCargoBancoDeDados, updateDepartamentoBancoDeDados, getAllDepartamentoBancoDeDados, getAllCargoBancoDeDados, updateFuncionariosBancoDeDados } from "../db";
 
 export default function Formulario({
   nomeTabela,
@@ -133,7 +133,19 @@ export default function Formulario({
     if (id) {
       const update = await updateDepartamentoBancoDeDados(id, novoDepartamento)
 
-      console.log(update)
+      if (!update.ok) {
+        setMensagem(update.mensagem);
+      }
+
+      if (update.ok) {
+        setIsOpen(true);
+      }
+    }
+  }
+
+  const updateFuncionario = async () => {
+    if (id) {
+      const update = await updateFuncionariosBancoDeDados(id, novoFuncionario, editar)
 
       if (!update.ok) {
         setMensagem(update.mensagem);
@@ -162,8 +174,6 @@ export default function Formulario({
     fetchDate()
   }, [])
 
-  console.log(novoFuncionario);
-
   return (
     <>
       <ModalMensagem
@@ -184,6 +194,8 @@ export default function Formulario({
             onSubmit={(e) => {
               e.preventDefault(); if (acao === "Adicionando") {
                 createFuncionario()
+              } else {
+                updateFuncionario()
               }
             }}
           >

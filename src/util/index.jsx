@@ -37,7 +37,7 @@ export const transformarMascaraDeDinheiroParaFloat = (valor) => {
 export const formatoFuncionarioParaAlterar = (dados) => {
   return {
     nome: (dados.nome === null ? '' : dados.nome),
-    nascimento: (dados.nascimento === null ? '' : dados.nascimento),
+    nascimento: (dados.nascimento === null ? '' : dados.nascimento.replace("T00:00:00.000+00:00", "")),
     email: (dados.email === null ? '' : dados.email),
     contratacao: (dados.contratacao === null ? pegaDataAtualDoContrato() : dados.contratacao),
     turno: (dados.turno === null ? '' : dados.turno),
@@ -45,9 +45,9 @@ export const formatoFuncionarioParaAlterar = (dados) => {
     cargo: (dados.cargo === null ? '' : dados.cargo.id),
     departamento: (dados.departamento === null ? '' : dados.departamento.id),
     usuario: {
-        cpf: (dados.usuario.cpf === null ? '' : dados.usuario.cpf),
-        senha: (dados.usuario.senha === null ? '' : dados.usuario.senha),
-        tipoDeAcesso: (dados.usuario.tipoDeAcessoEnum === null ? '' : dados.usuario.tipoDeAcessoEnum),
+      cpf: (dados.usuario.cpf === null ? '' : dados.usuario.cpf),
+      senha: (dados.usuario.senha === null ? '' : dados.usuario.senha),
+      tipoDeAcesso: (dados.usuario.tipoDeAcessoEnum === null ? '' : dados.usuario.tipoDeAcessoEnum),
     }
   }
 };
@@ -60,14 +60,60 @@ export const validadorAlteracaoFuncionario = (antigoDado, novaEntrada) => {
     email: antigoDado.email !== novaEntrada.email ? (novaEntrada.email !== "" ? novaEntrada.email : antigoDado.email) : antigoDado.email,
     turno: antigoDado.turno !== novaEntrada.turno ? (novaEntrada.turno !== "" ? novaEntrada.turno : antigoDado.turno) : antigoDado.turno,
     modalidade: antigoDado.modalidade !== novaEntrada.modalidade ? (novaEntrada.modalidade !== "" ? novaEntrada.modalidade : antigoDado.modalidade) : antigoDado.modalidade,
-    cargo: antigoDado.cargo !== novaEntrada.cargo ?( novaEntrada.cargo === "" ? null : novaEntrada.cargo ): (antigoDado.cargo === "" ? null : antigoDado.cargo),
+    cargo: antigoDado.cargo !== novaEntrada.cargo ? (novaEntrada.cargo === "" ? null : novaEntrada.cargo) : (antigoDado.cargo === "" ? null : antigoDado.cargo),
     departamento: antigoDado.departamento !== novaEntrada.departamento ? (novaEntrada.departamento === "" ? null : novaEntrada.departamento) : (antigoDado.departamento === "" ? null : antigoDado.departamento),
     usuario: {
-        cpf: antigoDado.usuario.cpf,
-        senha: antigoDado.usuario.senha,
-        tipoDeAcesso: antigoDado.usuario.tipoDeAcessoEnum !== novaEntrada.usuario.tipoDeAcesso ? 
-          (novaEntrada.usuario.tipoDeAcesso !== "" ? novaEntrada.usuario.tipoDeAcesso : antigoDado.usuario.tipoDeAcessoEnum) 
-            : antigoDado.usuario.tipoDeAcessoEnum
+      cpf: antigoDado.usuario.cpf,
+      senha: antigoDado.usuario.senha,
+      tipoDeAcesso: antigoDado.usuario.tipoDeAcessoEnum !== novaEntrada.usuario.tipoDeAcesso ?
+        (novaEntrada.usuario.tipoDeAcesso !== "" ? novaEntrada.usuario.tipoDeAcesso : antigoDado.usuario.tipoDeAcessoEnum)
+        : antigoDado.usuario.tipoDeAcessoEnum
     }
+  }
+}
+
+export const converterDataContratacao = (data) => {
+  // Separa os componentes da data original
+  const partes = data.split('-');
+  const ano = partes[0];
+  const mes = partes[1];
+  const dia = partes[2];
+
+  // Reconstroi a data no formato desejado
+  const dataFormatada = `${dia}/${mes}/${ano}`;
+
+  return dataFormatada;
+}
+
+export const converterDataNascimento = (dataISO) => {
+  // Cria um objeto Date a partir da string ISO 8601
+  const data = new Date(dataISO);
+
+  // Formata a data para o formato "YYYY-MM-DD"
+  const ano = data.getFullYear();
+  const mes = (data.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda se necessário
+  const dia = data.getDate().toString().padStart(2, '0');
+  const dataFormatada = `${dia}/${mes}/${ano}`;
+
+  return dataFormatada;
+}
+
+export const filterTabela = (tabela, palavra, tipo) => {
+  if (tipo === "Funcionario") {
+    return tabela.filter(({ nome, cargo, departamento }) =>
+      nome.toLowerCase().indexOf(palavra.toLowerCase()) !== -1 ||
+      (cargo === null ? 'Sem cargo' : cargo.nome).toLowerCase().indexOf(palavra.toLowerCase()) !== -1 ||
+      (departamento === null ? 'Sem departamento' : departamento.nomeDepartamento).toLowerCase().indexOf(palavra.toLowerCase()) !== -1
+    );
+
+  } else if (tipo === "Departamento") {
+    return tabela.filter(({ nomeDepartamento }) =>
+      nomeDepartamento.toLowerCase().indexOf(palavra.toLowerCase()) !== -1
+    );
+
+  } else {
+    return tabela.filter(({ nome }) =>
+      nome.toLowerCase().indexOf(palavra.toLowerCase()) !== -1
+    );
   }
 }

@@ -4,6 +4,8 @@ export default function Buscador({
   tipoAcao: { nomeAcao, tipo },
   botaoNovo,
   botaoVoltar,
+  pesquisa,
+  onChange,
 }) {
   return (
     <div className="searchTable">
@@ -17,6 +19,8 @@ export default function Buscador({
             id="search_table_input"
             type="text"
             placeholder="Buscar..."
+            value={pesquisa}
+            onChange={(e) => onChange(e.target.value)}
           />
         )}
         {/*

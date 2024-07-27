@@ -1,3 +1,5 @@
+import { converterDataContratacao, converterDataNascimento } from "../util";
+
 export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
   return (
     <>
@@ -20,18 +22,21 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
               <tbody className="tableBody" id="table_body">
                 {visualizar && (
                   <tr>
-                    <td colSpan="2">{visualizar.nome}</td>
-                    <td colSpan="2">{visualizar.email}</td>
-                    <td colSpan="1">{visualizar.nascimento}</td>
-                    <td colSpan="1">{visualizar.usuario.cpf}</td>
-                    <td colSpan="1">{visualizar.contratacao}</td>
-                    <td colSpan="1">{visualizar.usuario.tipoDeAcessoEnum}</td>
-                    <td colSpan="2">{visualizar.cargo.nome}</td>
-                    <td colSpan="1">{visualizar.cargo.salario}</td>
+                    <td colSpan="2">{visualizar.nome !== null ? visualizar.nome : 'Sem nome'}</td>
+                    <td colSpan="2">{visualizar.email !== null ? visualizar.email : 'Sem email'}</td>
+                    <td colSpan="1">{visualizar.nascimento !== null ? converterDataNascimento(visualizar.nascimento) : 'Sem nascimento'}</td>
+                    <td colSpan="1">{visualizar.usuario.cpf !== null ? visualizar.usuario.cpf : 'Sem CPF'}</td>
+                    <td colSpan="1">{visualizar.contratacao !== null ? converterDataContratacao(visualizar.contratacao) : 'Sem contrataçao'}</td>
+                    <td colSpan="1">{visualizar.usuario.tipoDeAcessoEnum !== null ? visualizar.usuario.tipoDeAcessoEnum : 'Sem Acesso'}</td>
+                    <td colSpan="2">{visualizar.cargo !== null ? visualizar.cargo.nome : 'Sem Cargo'}</td>
+                    <td colSpan="1">{visualizar.cargo !== null ? (visualizar.cargo.salario).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'Sem Salario'}</td>
                     <td colSpan="2">
-                      {visualizar.departamento.nomeDepartamento}
+                      {visualizar.departamento !== null ? visualizar.departamento.nomeDepartamento : 'Sem Departamento'}
                     </td>
-                    <td colSpan="1">{visualizar.turno}</td>
+                    <td colSpan="1">{visualizar.turno !== null ?
+                      (visualizar.turno === 'TURNO_A' ? 'Matutino' :
+                        visualizar.turno === 'TURNO_B' ? 'Vespertino' : 'Noturno'
+                      ) : 'Sem turno'}</td>
                   </tr>
                 )}
               </tbody>
@@ -44,10 +49,14 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
                 <th colSpan="2">Data de Alteração</th>
               </tr>
               <tbody className="tableBody" id="table_body">
-                <tr>
-                  <th colSpan="5">Alteração</th>
-                  <th colSpan="2">Data de Alteração</th>
-                </tr>
+                {
+                  /*
+                  <tr>
+                    <th colSpan="5">Alteração</th>
+                    <th colSpan="2">Data de Alteração</th>
+                  </tr>
+                  */
+                }
               </tbody>
             </table>
           </div>
@@ -66,9 +75,9 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
             <tbody className="tableBody" id="table_body">
               {visualizar && (
                 <tr>
-                  <td colSpan="3">{visualizar.nomeDepartamento}</td>
-                  <td colSpan="5">{visualizar.localizacao}</td>
-                  <td colSpan="5">{visualizar.descricao}</td>
+                  <td colSpan="3">{visualizar.nomeDepartamento !== null ? visualizar.nomeDepartamento : 'Sem nome de Departamento'}</td>
+                  <td colSpan="5">{visualizar.localizacao !== null ? visualizar.localizacao : 'Sem localização'}</td>
+                  <td colSpan="5">{visualizar.descricao !== null ? visualizar.descricao : 'Sem descrição'}</td>
                   <td colSpan="1">50</td>
                   <td colSpan="2">Gestor</td>
                 </tr>
@@ -90,10 +99,10 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
             <tbody className="tableBody" id="table_body">
               {visualizar && (
                 <tr>
-                  <td colSpan="2">{visualizar.nome}</td>
-                  <td colSpan="5">{visualizar.descricao}</td>
-                  <td colSpan="1">{visualizar.cargaHoraria}</td>
-                  <td colSpan="1">{visualizar.salario}</td>
+                  <td colSpan="2">{visualizar.nome !== null ? visualizar.nome : 'Sem nome do cargo'}</td>
+                  <td colSpan="5">{visualizar.descricao !== null ? visualizar.descricao : 'Sem nome de descrição'}</td>
+                  <td colSpan="1">{visualizar.cargaHoraria !== null ? visualizar.cargaHoraria : 'Sem cargo horaria'}</td>
+                  <td colSpan="1">{visualizar.salario !== null ? visualizar.salario : 'Sem salario'}</td>
                   <td colSpan="1">10</td>
                 </tr>
               )}

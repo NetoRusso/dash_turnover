@@ -12,6 +12,7 @@ import {
 import Formulario from "./components/Formulario";
 import TabelaDeVisualizar from "./components/TabelaDeVIsuailizar";
 import ModalExcluir from "./components/ModalExcluir";
+import { filterTabela } from "./util";
 
 const tabelasGerais = [
   {
@@ -65,6 +66,7 @@ function App() {
   const [ativo, setAtivo] = useState(0);
   const [visualizar, setVisualizar] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [pesquisa, setPesquisa] = useState('')
 
   useEffect(() => {
     async function fetchDate() {
@@ -113,6 +115,8 @@ function App() {
     setAtivo(3);
   };
 
+  console.log(dadosTabela)
+
   return (
     <>
       {usuario && (
@@ -136,6 +140,8 @@ function App() {
                     botaoVoltar={() => {
                       setAtivo(0);
                     }}
+                    pesquisa={pesquisa}
+                    onChange={setPesquisa}
                   />
                   {acaoPagina[ativo].tipo === "tabela" && (
                     <>
@@ -145,9 +151,9 @@ function App() {
                         nome={visualizar ? visualizar : ""}
                         botaoCancelar={() => setIsOpen(false)}
                       />
-                      <Tabela
+                      <Tabela // (tabela, palavra, tipo)
                         tabelaTitulos={tabelasGerais[indexTabela]}
-                        tabelaDados={dadosTabela}
+                        tabelaDados={pesquisa !== '' ? filterTabela(dadosTabela, pesquisa , tabelasGerais[indexTabela].nome) : dadosTabela}
                         tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
                         botaoEditar={botaoEditar}
                         botaoVisual={vizualizar}

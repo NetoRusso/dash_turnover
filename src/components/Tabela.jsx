@@ -1,6 +1,7 @@
 import Deletar from "../img/delete_btn.png";
 import Update from "../img/edit_btn.png";
 import View from "../img/view_btn.png";
+import { converterDataContratacao } from "../util";
 
 export default function Tabela({
   tabelaTitulos: { titulos, colospan, nome },
@@ -33,7 +34,7 @@ export default function Tabela({
                     {nome === "Funcionario" && 'modalidade' in dado && (
                       <>
                         <td colSpan="3">{dado.nome !== null ? dado.nome : 'Sem nome'}</td>
-                        <td colSpan="3">{dado.contratacao !== null ? dado.contratacao : 'Sem contratacao'}</td>
+                        <td colSpan="3">{dado.contratacao !== null ? converterDataContratacao(dado.contratacao) : 'Sem contratacao'}</td>
                         <td colSpan="2">{dado.turno !== null ?
                           (dado.turno === 'TURNO_A' ? 'Matutino': 
                             dado.turno === 'TURNO_B' ? 'Vespertino': 'Noturno' 

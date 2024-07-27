@@ -1,11 +1,13 @@
 import Cargo from "../json/cargo.json";
 import Departamentos from "../json/departamentos.json";
 import { cpf } from 'cpf-cnpj-validator';
+import { validadorAlteracaoFuncionario } from "../util";
 
 const HOST = `http://localhost:8080`
 
 let authBancoDeDados;
 let cpfBancoDeDados;
+let gestor;
 
 // Login Credenciais do Banco de Dados
 export const loginBancoDeDados = async (cpf, auth) => {
@@ -19,6 +21,7 @@ export const loginBancoDeDados = async (cpf, auth) => {
 
   authBancoDeDados = auth;
   cpfBancoDeDados = cpf;
+  gestor = login.usuario.tipoDeAcessoEnum === "GESTOR"
 
   if (login) {
     return { ...login, auth: auth };
@@ -57,6 +60,16 @@ export const createFuncionarioBancoDeDados = async (funcionario) => {
 
   return createFuncionario;
 };
+
+export const updateFuncionariosBancoDeDados = async (id, funcionarioNovo, funcionarioAntigo) => {
+  const update = await fetch(`${HOST}/funcionario/atualizar/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
+    body: JSON.stringify(validadorAlteracaoFuncionario(funcionarioAntigo, funcionarioNovo))
+  }).then(res => res.ok ? { mensagem: 'Funcionario atualizado com Sucesso', ok: true } : { mensagem: 'Funcionario não atualizado', ok: false }).catch(err => console.log(err))
+
+  return update
+}
 
 // Departamento
 
