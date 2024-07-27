@@ -21,11 +21,23 @@ export const loginBancoDeDados = async (cpf, auth) => {
 
   authBancoDeDados = auth;
   cpfBancoDeDados = cpf;
-  gestor = login.usuario.tipoDeAcessoEnum === "GESTOR"
+  gestor = (login.usuario.tipoDeAcessoEnum === "GESTOR")
 
   if (login) {
     return { ...login, auth: auth };
   }
+}
+
+export const verificarLoginBancoDeDados = async (cpf, auth) => {
+  const login = await fetch(`${HOST}/funcionario/cpf/${cpf}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Basic ${auth}`
+    }
+  }).then(res => res.json()).catch(err => console.log(err));
+
+  return login
 }
 
 
@@ -45,7 +57,7 @@ export const createFuncionarioBancoDeDados = async (funcionario) => {
     return { mensagem: 'CPF inválido', ok: false }
   }
 
-  const login = await loginBancoDeDados(funcionario.usuario.cpf, authBancoDeDados)
+  const login = await verificarLoginBancoDeDados(funcionario.usuario.cpf, authBancoDeDados)
 
   if (login) {
     return { mensagem: 'Usuario já cadastrado', ok: false }
@@ -132,4 +144,23 @@ export const updateCargoBancoDeDados = async (id, cargo) => {
   }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false }).catch(err => console.log(err))
 
   return update
+}
+
+export const quantidadeDeFuncionarioPorCargo = async (cargoNome) => {
+  const funcionario = await getAllFuncionarioBancoDeDados();
+  
+  const cargoPorFuncionario = funcionario.find(({ departamento, usuario }) => departamento !== null && departamento.nomeDepartamento === cargoNome && usuario.tipoDeAcessoEnum === "GESTOR")
+
+  return cargoPorFuncionario.lenght
+}
+
+// alocacao 
+
+export const getAllForIdFuncionarioAlocacao = async (id) => {
+  const alocacao = await fetch(`${HOST}/alocacoes/${id}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
+  }).then(res => res.json()).catch(err => console.log(err))
+  
+  return alocacao;
 }

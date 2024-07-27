@@ -115,8 +115,6 @@ function App() {
     setAtivo(3);
   };
 
-  console.log(dadosTabela)
-
   return (
     <>
       {usuario && (

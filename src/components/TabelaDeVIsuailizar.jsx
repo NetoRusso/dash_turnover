@@ -1,6 +1,23 @@
+import { useEffect, useState } from "react";
+import { getAllForIdFuncionarioAlocacao, getAllFuncionarioBancoDeDados } from "../db";
 import { converterDataContratacao, converterDataNascimento } from "../util";
 
 export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
+  const [tabela, setTabela] = useState([])
+  const [alocacao, setAlocacao] = useState([])
+
+  useEffect(() => {
+    async function fetchData() {
+      setTabela(await getAllFuncionarioBancoDeDados());
+      if (nomeTabela === "Funcionario") {
+        setAlocacao(await getAllForIdFuncionarioAlocacao(visualizar.id))
+      }
+    }
+
+    fetchData();
+
+  }, []);
+
   return (
     <>
       {nomeTabela === "Funcionario" && (
@@ -50,12 +67,13 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
               </tr>
               <tbody className="tableBody" id="table_body">
                 {
-                  /*
-                  <tr>
-                    <th colSpan="5">Alteração</th>
-                    <th colSpan="2">Data de Alteração</th>
-                  </tr>
-                  */
+
+                  alocacao.map(({ alteracao, dataAtualizacao }, index) => (
+                    <tr key={index}>
+                      <th colSpan="5">{alteracao === 'null' ? 'Houve a primeira alteração de cargo ou departamento' : alteracao}</th>
+                      <th colSpan="2">{converterDataNascimento(dataAtualizacao)}</th>
+                    </tr>
+                  ))
                 }
               </tbody>
             </table>
@@ -78,8 +96,8 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
                   <td colSpan="3">{visualizar.nomeDepartamento !== null ? visualizar.nomeDepartamento : 'Sem nome de Departamento'}</td>
                   <td colSpan="5">{visualizar.localizacao !== null ? visualizar.localizacao : 'Sem localização'}</td>
                   <td colSpan="5">{visualizar.descricao !== null ? visualizar.descricao : 'Sem descrição'}</td>
-                  <td colSpan="1">50</td>
-                  <td colSpan="2">Gestor</td>
+                  <td colSpan="1">{tabela.filter(({ departamento }) => departamento !== null && departamento.nomeDepartamento === visualizar.nomeDepartamento).length}</td>
+                  <td colSpan="2">{tabela.filter(({ departamento, usuario }) => departamento !== null && departamento.nomeDepartamento === visualizar.nomeDepartamento && usuario.tipoDeAcessoEnum === "GESTOR").length > 0 ? tabela.filter(({ departamento, usuario }) => departamento !== null && departamento.nomeDepartamento === visualizar.nomeDepartamento && usuario.tipoDeAcessoEnum === "GESTOR")[0].nome : 'Não há Gestor'}</td>
                 </tr>
               )}
             </tbody>
@@ -101,9 +119,9 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
                 <tr>
                   <td colSpan="2">{visualizar.nome !== null ? visualizar.nome : 'Sem nome do cargo'}</td>
                   <td colSpan="5">{visualizar.descricao !== null ? visualizar.descricao : 'Sem nome de descrição'}</td>
-                  <td colSpan="1">{visualizar.cargaHoraria !== null ? visualizar.cargaHoraria : 'Sem cargo horaria'}</td>
-                  <td colSpan="1">{visualizar.salario !== null ? visualizar.salario : 'Sem salario'}</td>
-                  <td colSpan="1">10</td>
+                  <td colSpan="1">{visualizar.cargaHoraria !== null ? `${visualizar.cargaHoraria} horas semanais` : 'Sem cargo horaria'}</td>
+                  <td colSpan="1">{visualizar.salario !== null ? (visualizar.salario).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'Sem salario'}</td>
+                  <td colSpan="1">{tabela.filter(({ cargo }) => cargo !== null && cargo.nome === visualizar.nome).length}</td>
                 </tr>
               )}
             </tbody>
