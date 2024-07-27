@@ -1,52 +1,15 @@
-html:
-
-
-<div class="conteudoModal">
-		<p class="mensagemModal">
-			Aqui vai a mensagem do tratamento
-		</p>
-		<button class="okMsgModalBtn">ok</button>
-	</div>
-
-
-
-  Css:
-
-  .conteudoModal {
-  width: 300px;
-  height: 450px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 32px;
-  /* border: solid 1px var(--color-green-1); */
-  padding: 16px;
-}
-
-.mensagemModal {
-  width: 100%;
-  font-size: 24px;
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1.5;
-  color: var(--color-white);
-  text-align: center;
-}
-
-.okMsgModalBtn {
-  width: 120px;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: var(--wght-bold);
-  color: var(--color-white);
-  background-color: var(--color-green-1);
-  border: none;
-  border-top-right-radius: 30px;
-  border-bottom-left-radius: 15px;
-}
-
-.okMsgModalBtn:hover {
-  cursor: pointer;
-  background-color: var(--color-green-2);
-}
+  return {
+    nome: dados.nome !== novo.nome ? (novo.nome !== null ? novo.nome : dados.nome) : dados.nome,
+    nascimento: dados.nascimento,
+    contratacao: dados.contratacao,
+    email: dados.email !== novo.email ? (novo.email !== null ? novo.email : dados.email) : dados.email,
+    turno: dados.turno !== novo.turno ? (novo.turno !== null ? novo.turno : dados.turno) : dados.turno,
+    modalidade: dados.modalidade !== novo.modalidade ? (novo.modalidade !== null ? novo.modalidade : dados.modalidade) : dados.modalidade,
+    cargo: dados.cargo !== novo.cargo ? novo.cargo : dados.cargo,
+    departamento: dados.departamento !== novo.departamento ? novo.departamento : dados.departamento,
+    usuario: {
+        cpf: dados.usuario.cpf,
+        senha: dados.usuario.senha,
+        tipoDeAcesso: dados.usuario.tipoDeAcesso !== novo.usuario.tipoDeAcesso ? novo.usuario.tipoDeAcesso : dados.usuario.tipoDeAcesso
+    }
+  }

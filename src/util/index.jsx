@@ -50,4 +50,4 @@ export const formatoFuncionarioParaAlterar = (dados) => {
         tipoDeAcesso: (dados.usuario.tipoDeAcessoEnum === null ? '' : dados.usuario.tipoDeAcessoEnum),
     }
   }
-} 
+}
