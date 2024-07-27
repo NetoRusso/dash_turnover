@@ -48,4 +48,24 @@ export const formatoFuncionarioParaAlterar = (dados) => {
       tipoDeAcesso: (dados.usuario.tipoDeAcessoEnum === null ? '' : dados.usuario.tipoDeAcessoEnum),
     }
   }
+};
+
+export const validadorAlteracaoFuncionario = (antigoDado, novaEntrada) => {
+  return {
+    nome: antigoDado.nome !== novaEntrada.nome ? (novaEntrada.nome !== "" ? novaEntrada.nome : antigoDado.nome) : antigoDado.nome,
+    nascimento: antigoDado.nascimento,
+    contratacao: antigoDado.contratacao,
+    email: antigoDado.email !== novaEntrada.email ? (novaEntrada.email !== "" ? novaEntrada.email : antigoDado.email) : antigoDado.email,
+    turno: antigoDado.turno !== novaEntrada.turno ? (novaEntrada.turno !== "" ? novaEntrada.turno : antigoDado.turno) : antigoDado.turno,
+    modalidade: antigoDado.modalidade !== novaEntrada.modalidade ? (novaEntrada.modalidade !== "" ? novaEntrada.modalidade : antigoDado.modalidade) : antigoDado.modalidade,
+    cargo: antigoDado.cargo !== novaEntrada.cargo ?( novaEntrada.cargo === "" ? null : novaEntrada.cargo ): (antigoDado.cargo === "" ? null : antigoDado.cargo),
+    departamento: antigoDado.departamento !== novaEntrada.departamento ? (novaEntrada.departamento === "" ? null : novaEntrada.departamento) : (antigoDado.departamento === "" ? null : antigoDado.departamento),
+    usuario: {
+        cpf: antigoDado.usuario.cpf,
+        senha: antigoDado.usuario.senha,
+        tipoDeAcesso: antigoDado.usuario.tipoDeAcessoEnum !== novaEntrada.usuario.tipoDeAcesso ? 
+          (novaEntrada.usuario.tipoDeAcesso !== "" ? novaEntrada.usuario.tipoDeAcesso : antigoDado.usuario.tipoDeAcessoEnum) 
+            : antigoDado.usuario.tipoDeAcessoEnum
+    }
+  }
 }
