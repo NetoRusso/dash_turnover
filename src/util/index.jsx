@@ -34,20 +34,18 @@ export const transformarMascaraDeDinheiroParaFloat = (valor) => {
   return valorDinheiro
 }
 
-export const formatoFuncionarioParaAlterar = (dados, novo) => {
+export const formatoFuncionarioParaAlterar = (dados) => {
   return {
-    nome: dados.nome !== novo.nome ? novo.nome !== null ? novo.nome : dados.nome : dados.nome,
-    nascimento: dados.nascimento,
-    contratacao: dados.contratacao,
-    email: dados.email !== novo.email ? novo.email !== null ? novo.email : dados.email : dados.email,
-    turno: dados.turno !== novo.turno ? novo.turno !== null ? novo.turno : dados.turno : dados.turno,
-    modalidade: dados.modalidade !== novo.modalidade ? novo.modalidade !== null ? novo.modalidade : dados.modalidade : dados.modalidade,
-    cargo: dados.cargo !== novo.cargo ? novo.cargo : dados.cargo,
-    departamento: dados.departamento !== novo.departamento ? novo.departamento : dados.departamento,
+    nome: (dados.nome === null ? '' : dados.nome), nascimento: (dados.nascimento === null ? '' : dados.nascimento), email: (dados.email === null ? '' : dados.email),
+    contratacao: (dados.contratacao === null ? pegaDataAtualDoContrato() : dados.contratacao),
+    turno: (dados.turno === null ? '' : dados.turno),
+    modalidade: (dados.modalidade === null ? '' : dados.modalidade),
+    cargo: (dados.cargo === null ? '' : dados.cargo.id),
+    departamento: (dados.departamento === null ? '' : dados.departamento.id),
     usuario: {
-        cpf: dados.usuario.cpf,
-        senha: dados.usuario.senha,
-        tipoDeAcesso: dados.usuario.tipoDeAcesso !== novo.usuario.tipoDeAcesso ? novo.usuario.tipoDeAcesso : dados.usuario.tipoDeAcesso
+      cpf: (dados.usuario.cpf === null ? '' : dados.usuario.cpf),
+      senha: (dados.usuario.senha === null ? '' : dados.usuario.senha),
+      tipoDeAcesso: (dados.usuario.tipoDeAcessoEnum === null ? '' : dados.usuario.tipoDeAcessoEnum),
     }
   }
-} 
+}
