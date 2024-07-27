@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { pegaDataAtualDoContrato, mascaraCPF, removeDigitos, mascaraDinheiro, transformarMascaraDeDinheiroParaFloat } from "../util";
+import { pegaDataAtualDoContrato, mascaraCPF, removeDigitos, mascaraDinheiro, transformarMascaraDeDinheiroParaFloat, formatoFuncionarioParaAlterar } from "../util";
 import ModalMensagem from "./ModalMensagem";
 import { createFuncionarioBancoDeDados, createDepartamentoBancoDeDados, createCargoBancoDeDados, updateCargoBancoDeDados, updateDepartamentoBancoDeDados, getAllDepartamentoBancoDeDados, getAllCargoBancoDeDados } from "../db";
 
@@ -94,6 +94,7 @@ export default function Formulario({
       switch (nomeTabela) {
         case 'Funcionario':
           console.log(novo)
+          setNovoFuncionario(formatoFuncionarioParaAlterar(novo))
           setId(id)
           break;
         case 'Departamento':
@@ -112,7 +113,7 @@ export default function Formulario({
       }
     }
 
-  }, [editar])
+  }, [editar, acao, nomeTabela])
 
   const updateCargo = async () => {
     if (id) {
@@ -160,6 +161,8 @@ export default function Formulario({
 
     fetchDate()
   }, [])
+
+  console.log(novoFuncionario);
 
   return (
     <>
@@ -306,7 +309,7 @@ export default function Formulario({
                 value={novoFuncionario.departamento}
                 onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
               >
-                <option value="default">Escolha um departamento</option>
+                <option value="">Escolha um departamento</option>
                 {
                   allDepartamento.map(({ id, nomeDepartamento }) => (
                     <option value={id}>{nomeDepartamento}</option>
@@ -325,7 +328,7 @@ export default function Formulario({
                 value={novoFuncionario.cargo}
                 onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
               >
-                <option value="default">Escolha um cargo</option>
+                <option value="">Escolha um cargo</option>
                 {
                   allCargo.map(({ id, nome }) => (
                     <option value={id}>{nome}</option>
