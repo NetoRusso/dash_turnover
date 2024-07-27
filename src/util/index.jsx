@@ -34,20 +34,20 @@ export const transformarMascaraDeDinheiroParaFloat = (valor) => {
   return valorDinheiro
 }
 
-export const formatoFuncionarioParaAlterar = (novo) => {
+export const formatoFuncionarioParaAlterar = (dados, novo) => {
   return {
-    nome: novo.nome,
-    nascimento: novo.nascimento,
-    contratacao: novo.contratacao,
-    email: novo.email,
-    turno: novo.turno,
-    modalidade: novo.modalidade,
-    cargo: `${novo.cargo === null ? '' : novo.cargo}`,
-    departamento: "83a5d843-01e9-4874-b35d-907563dddabb",
+    nome: dados.nome !== novo.nome ? novo.nome !== null ? novo.nome : dados.nome : dados.nome,
+    nascimento: dados.nascimento,
+    contratacao: dados.contratacao,
+    email: dados.email !== novo.email ? novo.email !== null ? novo.email : dados.email : dados.email,
+    turno: dados.turno !== novo.turno ? novo.turno !== null ? novo.turno : dados.turno : dados.turno,
+    modalidade: dados.modalidade !== novo.modalidade ? novo.modalidade !== null ? novo.modalidade : dados.modalidade : dados.modalidade,
+    cargo: dados.cargo !== novo.cargo ? novo.cargo : dados.cargo,
+    departamento: dados.departamento !== novo.departamento ? novo.departamento : dados.departamento,
     usuario: {
-        cpf: "706.994.752-60",
-        senha: "1234",
-        tipoDeAcesso: "CEO"
+        cpf: dados.usuario.cpf,
+        senha: dados.usuario.senha,
+        tipoDeAcesso: dados.usuario.tipoDeAcesso !== novo.usuario.tipoDeAcesso ? novo.usuario.tipoDeAcesso : dados.usuario.tipoDeAcesso
     }
   }
 } 

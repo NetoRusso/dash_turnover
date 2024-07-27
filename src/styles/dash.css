@@ -191,6 +191,7 @@
   height: auto;
   border-collapse: collapse;
   text-align: left;
+  font-weight: 800;
   padding: 16px;
 }
 
@@ -220,6 +221,7 @@
   height: auto;
   border-collapse: collapse;
   padding: 16px;
+  font-weight: 600;
 }
 
 .btnTabela {
@@ -326,6 +328,17 @@
 .inputFormDash:focus {
   border: 8px solid var(--color-green-2);
   box-shadow: none;
+}
+
+.inputFormDash:disabled {
+  border: 8px solid var(--color-green-1);
+  opacity: 1;
+  box-shadow: none;
+}
+
+.inputFormDash:disabled:hover { 
+  cursor: not-allowed;
+  border: 8px solid var(--color-red);
 }
 
 .btnAddNew {

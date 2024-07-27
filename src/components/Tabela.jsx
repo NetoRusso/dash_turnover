@@ -34,10 +34,13 @@ export default function Tabela({
                       <>
                         <td colSpan="3">{dado.nome !== null ? dado.nome : 'Sem nome'}</td>
                         <td colSpan="3">{dado.contratacao !== null ? dado.contratacao : 'Sem contratacao'}</td>
-                        <td colSpan="2">{dado.turno !== null ? dado.turno : 'Sem turno'}</td>
+                        <td colSpan="2">{dado.turno !== null ?
+                          (dado.turno === 'TURNO_A' ? 'Matutino': 
+                            dado.turno === 'TURNO_B' ? 'Vespertino': 'Noturno' 
+                          ): 'Sem turno'}</td>
                         <td colSpan="2">{dado.departamento !== null ? dado.departamento.nomeDepartamento : 'Sem departamento'}</td>
                         <td colSpan="2">{dado.cargo !== null ? dado.cargo.nome : 'Sem cargo'}</td>
-                        <td colSpan="2">{dado.cargo !== null ? 'R$ ' + dado.cargo.salario : 'Sem salario'}</td> 
+                        <td colSpan="2">{dado.cargo !== null ? (dado.cargo.salario).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'Sem salario'}</td>
                       </>
                     )}
                     {nome === "Departamento" && 'localizacao' in dado && (
@@ -52,8 +55,8 @@ export default function Tabela({
                         <>
                           <td colSpan="3">{dado.nome !== null ? dado.nome : 'Sem nome'}</td>
                           <td colSpan="5">{dado.descricao !== null ? dado.descricao : 'Sem descricao'}</td>
-                          <td colSpan="1">{dado.cargaHoraria !== null ? dado.cargaHoraria : 'Sem carga horaria'}</td>
-                          <td colSpan="2">{dado.salario !== null ? dado.salario : 'Sem salario'}</td>
+                          <td colSpan="1">{dado.cargaHoraria !== null ? `${dado.cargaHoraria} horas semanais` : 'Sem carga horaria'}</td>
+                          <td colSpan="2">{dado.salario !== null ? (dado.salario).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'Sem salario'}</td>
                         </>
                       )
                     }
