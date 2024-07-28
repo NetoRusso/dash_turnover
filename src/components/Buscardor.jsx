@@ -23,11 +23,6 @@ export default function Buscador({
             onChange={(e) => onChange(e.target.value)}
           />
         )}
-        {/*
-          <button style={{}} className="searchTableBtn btnStand" id="search_table_btn">
-            Buscar
-          </button>
-        */}
       </div>
       {((nomeTabela === "Funcionario" && tipoAcesso !== "GESTOR") ||
         ((nomeTabela === "Departamento" || nomeTabela === "Cargo") &&

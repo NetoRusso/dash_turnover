@@ -8,7 +8,9 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
 
   useEffect(() => {
     async function fetchData() {
-      setTabela(await getAllFuncionarioBancoDeDados());
+      if (visualizar.usuario.tipoDeAcessoEnum !== "FUNCIONARIO") {
+        setTabela(await getAllFuncionarioBancoDeDados());
+      }
       if (nomeTabela === "Funcionario") {
         setAlocacao(await getAllForIdFuncionarioAlocacao(visualizar.id))
       }
@@ -24,18 +26,20 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
         <>
           <div className="tableContainer">
             <table className="tableView" id="table_view">
-              <tr className="tableCabecalho">
-                <th colSpan="2">Nome Completo</th>
-                <th colSpan="2">E-mail</th>
-                <th colSpan="1">Data de Nascimento</th>
-                <th colSpan="1">CPF</th>
-                <th colSpan="1">Data de Contratação</th>
-                <th colSpan="1">Tipo De Acesso</th>
-                <th colSpan="2">Cargo</th>
-                <th colSpan="1">Salario</th>
-                <th colSpan="2">Departamento</th>
-                <th colSpan="1">Turno</th>
-              </tr>
+              <thead>
+                <tr className="tableCabecalho">
+                  <th colSpan="2">Nome Completo</th>
+                  <th colSpan="2">E-mail</th>
+                  <th colSpan="1">Data de Nascimento</th>
+                  <th colSpan="1">CPF</th>
+                  <th colSpan="1">Data de Contratação</th>
+                  <th colSpan="1">Tipo De Acesso</th>
+                  <th colSpan="2">Cargo</th>
+                  <th colSpan="1">Salario</th>
+                  <th colSpan="2">Departamento</th>
+                  <th colSpan="1">Turno</th>
+                </tr>
+              </thead>
               <tbody className="tableBody" id="table_body">
                 {visualizar && (
                   <tr>
@@ -61,16 +65,18 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
           </div>
           <div className="tableContainer">
             <table className="tableView" id="table_view">
-              <tr className="tableCabecalho">
-                <th colSpan="5">Alteração</th>
-                <th colSpan="2">Data de Alteração</th>
-              </tr>
+              <thead>
+                <tr className="tableCabecalho">
+                  <th colSpan="5">Alteração</th>
+                  <th colSpan="2">Data de Alteração</th>
+                </tr>
+              </thead>
               <tbody className="tableBody" id="table_body">
                 {
 
                   alocacao.map(({ alteracao, dataAtualizacao }, index) => (
                     <tr key={index}>
-                      <th colSpan="5">{alteracao === 'null' ? 'Houve a primeira alteração de cargo ou departamento' : alteracao}</th>
+                      <th colSpan="5">{alteracao === 'null' ? 'Houve uma alteração de cargo ou departamento' : alteracao}</th>
                       <th colSpan="2">{converterDataNascimento(dataAtualizacao)}</th>
                     </tr>
                   ))
@@ -83,13 +89,15 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
       {nomeTabela === "Departamento" && (
         <div className="tableContainer">
           <table className="tableView" id="table_view">
-            <tr className="tableCabecalho">
-              <th colSpan="3">Nome</th>
-              <th colSpan="5">Localização</th>
-              <th colSpan="5">Descrição</th>
-              <th colSpan="1">Quatidade de funcionario</th>
-              <th colSpan="2">Gestor</th>
-            </tr>
+            <thead>
+              <tr className="tableCabecalho">
+                <th colSpan="3">Nome</th>
+                <th colSpan="5">Localização</th>
+                <th colSpan="5">Descrição</th>
+                <th colSpan="1">Quatidade de funcionario</th>
+                <th colSpan="2">Gestor</th>
+              </tr>
+            </thead>
             <tbody className="tableBody" id="table_body">
               {visualizar && (
                 <tr>
@@ -107,13 +115,15 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
       {nomeTabela === "Cargo" && (
         <div className="tableContainer">
           <table className="tableView" id="table_view">
-            <tr className="tableCabecalho">
-              <th colSpan="2">Nome</th>
-              <th colSpan="5">Descrição</th>
-              <th colSpan="1">Carga horaria (em horas semanais)</th>
-              <th colSpan="1">Salario</th>
-              <th colSpan="1">Quantidade de funcionarios</th>
-            </tr>
+            <thead>
+              <tr className="tableCabecalho">
+                <th colSpan="2">Nome</th>
+                <th colSpan="5">Descrição</th>
+                <th colSpan="1">Carga horaria (em horas semanais)</th>
+                <th colSpan="1">Salario</th>
+                <th colSpan="1">Quantidade de funcionarios</th>
+              </tr>
+            </thead>
             <tbody className="tableBody" id="table_body">
               {visualizar && (
                 <tr>

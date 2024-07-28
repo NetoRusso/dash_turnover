@@ -45,18 +45,16 @@ export const getAllFuncionarioBancoDeDados = async () => {
   let funcionarios = await fetch(`${HOST}/funcionario`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.json()).then(res => res.filter(({usuario}) => usuario.tipoDeAcessoEnum !== "CEO")).catch(err => console.log(err));
+  }).then(res => res.json()).then(res => res.filter(({usuario}) => usuario.tipoDeAcessoEnum !== "CEO"));
 
-  funcionarios = funcionarios.filter(({id}) => usuario.id !== id)
-  
   if (gestor && usuario.departamento !== null) {
     funcionarios = funcionarios.filter(({ departamento }) => departamento !== null && departamento.id === usuario.departamento.id)
   }
-
+  
   if (gestor && usuario.departamento === null) {
     funcionarios = []
   }
-
+  
   return funcionarios;
 };
 
@@ -75,7 +73,7 @@ export const createFuncionarioBancoDeDados = async (funcionario) => {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(funcionario)
-  }).then(res => res.ok ? { mensagem: `Funcionario cadastrado com sucesso`, ok: true } : { mensagem: 'funcionario não cadastrado', ok: false }).catch(err => console.log(err));
+  }).then(res => res.ok ? { mensagem: `Funcionario cadastrado com sucesso`, ok: true } : { mensagem: 'funcionario não cadastrado', ok: false });
 
 
   return createFuncionario;
@@ -85,17 +83,18 @@ export const updateFuncionariosBancoDeDados = async (id, funcionarioNovo, funcio
   const update = await fetch(`${HOST}/funcionario/atualizar/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
-    body: JSON.stringify(validadorAlteracaoFuncionario(funcionarioAntigo, funcionarioNovo))
-  }).then(res => res.ok ? { mensagem: 'Funcionario atualizado com Sucesso', ok: true } : { mensagem: 'Funcionario não atualizado', ok: false }).catch(err => console.log(err))
+    body: JSON.stringify(validadorAlteracaoFuncionario(funcionarioNovo, funcionarioAntigo))
+  }).then(res => res.ok ? { mensagem: 'Funcionario atualizado com Sucesso', ok: true } : { mensagem: 'Funcionario não atualizado', ok: false });
 
   return update
+ 
 }
 
 export const deleteFuncionarioBancoDeDados = async (id) => {
   const excluir = await fetch(`${HOST}/funcionario/${id}`, {
     method: "DELETE",
     headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.ok ? { mensagem: 'Funcionario excluido com Sucesso', ok: true } : { mensagem: 'Funcionario não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
+  }).then(res => res.ok ? { mensagem: 'Funcionario excluido com Sucesso', ok: true } : { mensagem: 'Funcionario não pode ser excluido. Por favor tente novamente!', ok: false });
 
   return excluir;
 }
@@ -106,7 +105,7 @@ export const getAllDepartamentoBancoDeDados = async () => {
   const departamentos = await fetch(`${HOST}/departamentos`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.json()).catch(err => console.log(err))
+  }).then(res => res.json());
 
   return departamentos;
 };
@@ -116,7 +115,7 @@ export const createDepartamentoBancoDeDados = async (departamento) => {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(departamento)
-  }).then(res => res.ok ? { mensagem: 'Departamento cadastrado com Sucesso', ok: true } : { mensagem: 'Departamento não cadastrado', ok: false }).catch(err => console.log(err));
+  }).then(res => res.ok ? { mensagem: 'Departamento cadastrado com Sucesso', ok: true } : { mensagem: 'Departamento não cadastrado', ok: false });
 
   return createDepartamento;
 };

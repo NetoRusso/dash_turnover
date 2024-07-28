@@ -10,21 +10,23 @@ export default function Tabela({
   botaoVisual,
   botaoEditar,
   botaoExcluir,
+  usuario,
 }) {
-  console.log("nome", nome);
   return (
     <div className="tableContainer">
       <table className="tableView" id="table_view">
-        <tr className="tableCabecalho">
-          {titulos.map((name, index) => (
-            <th key={index} colSpan={colospan[index]}>
-              {name}
-            </th>
-          ))}
-          <th>Visualizar</th>
-          <th>Editar</th>
-          <th>Excluir</th>
-        </tr>
+        <thead>
+          <tr className="tableCabecalho">
+            {titulos.map((name, index) => (
+              <th key={index} colSpan={colospan[index]}>
+                {name}
+              </th>
+            ))}
+            <th>Visualizar</th>
+            <th>Editar</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
         <tbody className="tableBody" id="table_body">
           {
             tabelaDados.length > 0 && nome && (
@@ -36,9 +38,9 @@ export default function Tabela({
                         <td colSpan="3">{dado.nome !== null ? dado.nome : 'Sem nome'}</td>
                         <td colSpan="3">{dado.contratacao !== null ? converterDataContratacao(dado.contratacao) : 'Sem contratacao'}</td>
                         <td colSpan="2">{dado.turno !== null ?
-                          (dado.turno === 'TURNO_A' ? 'Matutino': 
-                            dado.turno === 'TURNO_B' ? 'Vespertino': 'Noturno' 
-                          ): 'Sem turno'}</td>
+                          (dado.turno === 'TURNO_A' ? 'Matutino' :
+                            dado.turno === 'TURNO_B' ? 'Vespertino' : 'Noturno'
+                          ) : 'Sem turno'}</td>
                         <td colSpan="2">{dado.departamento !== null ? dado.departamento.nomeDepartamento : 'Sem departamento'}</td>
                         <td colSpan="2">{dado.cargo !== null ? dado.cargo.nome : 'Sem cargo'}</td>
                         <td colSpan="2">{dado.cargo !== null ? (dado.cargo.salario).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'Sem salario'}</td>
@@ -81,7 +83,7 @@ export default function Tabela({
                       <button
                         onClick={() => botaoEditar(dado)}
                         className="btnTabela"
-                        disabled={(nome === "Departamento" && tipoAcesso !== "CEO") || (nome === "Cargo" && tipoAcesso !== "CEO")}
+                        disabled={(nome === "Departamento" && tipoAcesso !== "CEO") || (nome === "Cargo" && tipoAcesso !== "CEO") || (nome === "Funcionario" && usuario.id === dado.id)}
                       >
                         <img
                           src={Update}
@@ -100,7 +102,7 @@ export default function Tabela({
                             nome === "Departamento" && tipoAcesso !== "CEO"
                           ) || (
                             nome === "Cargo" && tipoAcesso !== "CEO"
-                          )
+                          ) || (nome === "Funcionario" && usuario.id === dado.id)
                         }
                       >
                         <img
