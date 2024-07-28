@@ -1,20 +1,35 @@
 import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
-import { deleteCargoBancoDeDados, deleteDepartamentoBancoDeDados, deleteFuncionarioBancoDeDados } from "../db";
+import { deleteallAlocacao, deleteCargoBancoDeDados, deleteDepartamentoBancoDeDados, deleteFuncionarioBancoDeDados } from "../db";
 
 export default function ModalExcluir({ open, nomeTabela, nome, botaoFecharModal, id, atualizandoTabela }) {
   const [mensagem, setMensagem] = useState('')
   
   const excluirFuncionario =  async () => {
-    const excluir = await deleteFuncionarioBancoDeDados(id);
+    const deleteAll = await deleteallAlocacao(id);
 
-    if (!excluir.ok) {
-      setMensagem(excluir.mensagem);
-    }
-
-    if (excluir.ok) {
-      atualizandoTabela();
-      botaoFecharModal();
+    if (deleteAll) {
+      const excluir = await deleteFuncionarioBancoDeDados(id);
+  
+      if (!excluir.ok) {
+        setMensagem(excluir.mensagem);
+      }
+  
+      if (excluir.ok) {
+        atualizandoTabela();
+        botaoFecharModal();
+      }
+    } else {
+      const excluir = await deleteFuncionarioBancoDeDados(id);
+  
+      if (!excluir.ok) {
+        setMensagem(excluir.mensagem);
+      }
+  
+      if (excluir.ok) {
+        atualizandoTabela();
+        botaoFecharModal();
+      }
     }
   }
 
@@ -48,7 +63,7 @@ export default function ModalExcluir({ open, nomeTabela, nome, botaoFecharModal,
     if (mensagem !== '') {
       setTimeout(() => {
         setMensagem('')
-      }, 10000)
+      }, 1000)
     }
   }, [mensagem])
 

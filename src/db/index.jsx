@@ -1,5 +1,6 @@
 import { cpf } from 'cpf-cnpj-validator';
 import { validadorAlteracaoFuncionario } from "../util";
+import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
 const HOST = `http://localhost:8080`
 
@@ -15,7 +16,7 @@ export const loginBancoDeDados = async (cpf, auth) => {
       "Content-Type": "application/json",
       "Authorization": `Basic ${auth}`
     }
-  }).then(res => res.json())
+  }).then(res => res.json()).catch(err => console.log(err))
 
   authBancoDeDados = auth;
   gestor = (login.usuario.tipoDeAcessoEnum === "GESTOR")
@@ -33,7 +34,9 @@ export const verificarLoginBancoDeDados = async (cpf, auth) => {
       "Content-Type": "application/json",
       "Authorization": `Basic ${auth}`
     }
-  }).then(res => res.json());
+  }).then(res => res.json()).catch(err => console.log(err));
+
+  console.log(login)
 
   return login
 }
@@ -45,7 +48,7 @@ export const getAllFuncionarioBancoDeDados = async () => {
   let funcionarios = await fetch(`${HOST}/funcionario`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.json()).then(res => res.filter(({usuario}) => usuario.tipoDeAcessoEnum !== "CEO"));
+  }).then(res => res.json()).then(res => res.filter(({usuario}) => usuario.tipoDeAcessoEnum !== "CEO")).catch(err => console.log(err));
 
   if (gestor && usuario.departamento !== null) {
     funcionarios = funcionarios.filter(({ departamento }) => departamento !== null && departamento.id === usuario.departamento.id)
@@ -73,7 +76,7 @@ export const createFuncionarioBancoDeDados = async (funcionario) => {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(funcionario)
-  }).then(res => res.ok ? { mensagem: `Funcionario cadastrado com sucesso`, ok: true } : { mensagem: 'funcionario não cadastrado', ok: false });
+  }).then(res => res.ok ? { mensagem: `Funcionario cadastrado com sucesso`, ok: true } : { mensagem: 'funcionario não cadastrado', ok: false }).catch(err => console.log(err));
 
 
   return createFuncionario;
@@ -84,26 +87,21 @@ export const updateFuncionariosBancoDeDados = async (id, funcionarioNovo, funcio
     method: "PATCH",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(validadorAlteracaoFuncionario(funcionarioNovo, funcionarioAntigo))
-  }).then(res => res.ok ? { mensagem: 'Funcionario atualizado com Sucesso', ok: true } : { mensagem: 'Funcionario não atualizado', ok: false });
+  }).then(res => res.ok ? { mensagem: 'Funcionario atualizado com Sucesso', ok: true } : { mensagem: 'Funcionario não atualizado', ok: false }).catch(err => console.log(err));
 
   return update
 
 }
 
 export const deleteFuncionarioBancoDeDados = async (id) => {
-  const alocacao = await getAllForIdFuncionarioAlocacao(id);
-  if(alocacao.length > 0) {
-  await fetch(`${HOST}/alocacoes/${id}`, {
-      method: "DELETE",
-        headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-    }).then(res => res.ok ? {ok: true } : {ok: false });
-  }
-  const excluir = await fetch(`${HOST}/funcionario/${id}`, {
-    method: "DELETE",
-    headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.ok ? { mensagem: 'Funcionario excluido com Sucesso', ok: true } : { mensagem: 'Funcionario não pode ser excluido. Por favor tente novamente!', ok: false });
 
-  return excluir;
+
+    const excluir = await fetch(`${HOST}/funcionario/${id}`, {
+      method: "DELETE",
+      headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
+    }).then(res => res.ok ? { mensagem: 'Funcionario excluido com Sucesso', ok: true } : { mensagem: 'Funcionario não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err));
+  
+    return excluir;
 }
 
 // Departamento
@@ -112,7 +110,7 @@ export const getAllDepartamentoBancoDeDados = async () => {
   const departamentos = await fetch(`${HOST}/departamentos`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.json());
+  }).then(res => res.json()).catch(err => console.log(err));
 
   return departamentos;
 };
@@ -122,7 +120,7 @@ export const createDepartamentoBancoDeDados = async (departamento) => {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(departamento)
-  }).then(res => res.ok ? { mensagem: 'Departamento cadastrado com Sucesso', ok: true } : { mensagem: 'Departamento não cadastrado', ok: false });
+  }).then(res => res.ok ? { mensagem: 'Departamento cadastrado com Sucesso', ok: true } : { mensagem: 'Departamento não cadastrado', ok: false }).catch(err => console.log(err));
 
   return createDepartamento;
 };
@@ -132,7 +130,7 @@ export const updateDepartamentoBancoDeDados = async (id, departamento) => {
     method: "PATCH",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(departamento)
-  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false })
+  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false }).catch(err => console.log(err))
 
   return update
 }
@@ -141,7 +139,7 @@ export const deleteDepartamentoBancoDeDados = async (id) => {
   const excluir = await fetch(`${HOST}/departamentos/${id}`, {
     method: "DELETE",
     headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.ok ? { mensagem: 'Departamento excluido com Sucesso', ok: true } : { mensagem: 'Departamento não pode ser excluido. Por favor tente novamente!', ok: false })
+  }).then(res => res.ok ? { mensagem: 'Departamento excluido com Sucesso', ok: true } : { mensagem: 'Departamento não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
 
   return excluir;
 }
@@ -153,7 +151,7 @@ export const getAllCargoBancoDeDados = async () => {
   const cargo = await fetch(`${HOST}/cargos`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
-  }).then(res => res.json())
+  }).then(res => res.json()).catch(err => console.log(err))
   
   return cargo;
 };
@@ -163,7 +161,7 @@ export const createCargoBancoDeDados = async (cargo) => {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(cargo)
-  }).then(res => res.ok ? { mensagem: 'Cargo cadastrado com Sucesso', ok: true } : { mensagem: 'Cargo não cadastrado', ok: false })
+  }).then(res => res.ok ? { mensagem: 'Cargo cadastrado com Sucesso', ok: true } : { mensagem: 'Cargo não cadastrado', ok: false }).catch(err => console.log(err))
 
   return create;
 }
@@ -173,7 +171,7 @@ export const updateCargoBancoDeDados = async (id, cargo) => {
     method: "PATCH",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(cargo)
-  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false })
+  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false }).catch(err => console.log(err))
 
   return update
 }
@@ -182,7 +180,7 @@ export const deleteCargoBancoDeDados = async (id) => {
   const excluir = await fetch(`${HOST}/cargos/${id}`, {
     method: "DELETE",
     headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.ok ? { mensagem: 'Cargo excluido com Sucesso', ok: true } : { mensagem: 'Cargo não pode ser excluido. Por favor tente novamente!', ok: false })
+  }).then(res => res.ok ? { mensagem: 'Cargo excluido com Sucesso', ok: true } : { mensagem: 'Cargo não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
 
   return excluir;
 }
@@ -202,7 +200,28 @@ export const getAllForIdFuncionarioAlocacao = async (id) => {
   const alocacao = await fetch(`${HOST}/alocacoes/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
-  }).then(res => res.json())
+  }).then(res => res.json()).catch(err => console.log(err))
   
   return alocacao;
+}
+
+export const deleteIdAlocacao = async (id) => {
+  const excluir = await fetch(`${HOST}/alocacoes/${id}`, {
+    method: "DELETE",
+      headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
+  }).then(res => res.ok ).catch(err => console.log(err));
+
+  return excluir;
+}
+
+export const deleteallAlocacao = async (id) => {
+  const alocacao = await getAllForIdFuncionarioAlocacao(id);
+
+  if(alocacao.length > 0) {
+    alocacao.forEach(async ({id}) => {
+      await deleteIdAlocacao(id)
+    });
+
+    return true;
+  }
 }
