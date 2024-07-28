@@ -16,6 +16,7 @@ export default function ModalExcluir({ open, nomeTabela, nome, botaoFecharModal,
       }
   
       if (excluir.ok) {
+        await deleteFuncionarioBancoDeDados(id);
         atualizandoTabela();
         botaoFecharModal();
       }

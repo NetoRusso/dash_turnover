@@ -94,14 +94,12 @@ export const updateFuncionariosBancoDeDados = async (id, funcionarioNovo, funcio
 }
 
 export const deleteFuncionarioBancoDeDados = async (id) => {
-
-
-    const excluir = await fetch(`${HOST}/funcionario/${id}`, {
-      method: "DELETE",
-      headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-    }).then(res => res.ok ? { mensagem: 'Funcionario excluido com Sucesso', ok: true } : { mensagem: 'Funcionario não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err));
+  const excluir = await fetch(`${HOST}/funcionario/${id}`, {
+    method: "DELETE",
+    headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
+  }).then(res => res.ok ? { mensagem: 'Funcionario excluido com Sucesso', ok: true } : { mensagem: 'Funcionario não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err));
   
-    return excluir;
+  return excluir;
 }
 
 // Departamento
@@ -221,7 +219,7 @@ export const deleteallAlocacao = async (id) => {
     alocacao.forEach(async ({id}) => {
       await deleteIdAlocacao(id)
     });
-
+    
     return true;
   }
 }
