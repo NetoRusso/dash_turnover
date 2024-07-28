@@ -81,16 +81,23 @@ export const createFuncionarioBancoDeDados = async (funcionario) => {
 
 export const updateFuncionariosBancoDeDados = async (id, funcionarioNovo, funcionarioAntigo) => {
   const update = await fetch(`${HOST}/funcionario/atualizar/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(validadorAlteracaoFuncionario(funcionarioNovo, funcionarioAntigo))
   }).then(res => res.ok ? { mensagem: 'Funcionario atualizado com Sucesso', ok: true } : { mensagem: 'Funcionario não atualizado', ok: false });
 
   return update
- 
+
 }
 
 export const deleteFuncionarioBancoDeDados = async (id) => {
+  const alocacao = await getAllForIdFuncionarioAlocacao(id);
+  if(alocacao.length > 0) {
+  await fetch(`${HOST}/alocacoes/${id}`, {
+      method: "DELETE",
+        headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
+    }).then(res => res.ok ? {ok: true } : {ok: false });
+  }
   const excluir = await fetch(`${HOST}/funcionario/${id}`, {
     method: "DELETE",
     headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
