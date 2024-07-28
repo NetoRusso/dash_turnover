@@ -60,11 +60,11 @@ export const validadorAlteracaoFuncionario = (antigoDado, novaEntrada) => {
     email: antigoDado.email !== novaEntrada.email && novaEntrada.email !== "" ? novaEntrada.email : antigoDado.email,
     turno: antigoDado.turno !== novaEntrada.turno && novaEntrada.turno !== "" ? novaEntrada.turno : antigoDado.turno,
     modalidade: antigoDado.modalidade !== novaEntrada.modalidade && novaEntrada.modalidade !== "" ? novaEntrada.modalidade : antigoDado.modalidade,
-    cargo: novaEntrada.cargo === "" ? null : novaEntrada.cargo,
-    departamento: novaEntrada.departamento === "" ? null : novaEntrada.departamento,
+    cargo: antigoDado.cargo === novaEntrada.cargo ? antigoDado.cargo : novaEntrada.cargo,
+    departamento: antigoDado.departamento === novaEntrada.departamento ? antigoDado.departamento : novaEntrada.departamento,
     usuario: {
       cpf: antigoDado.usuario.cpf,
-      senha: antigoDado.usuario.senha,
+      senha: 1234,
       tipoDeAcesso: antigoDado.usuario.tipoDeAcessoEnum !== novaEntrada.usuario.tipoDeAcesso ?
         (novaEntrada.usuario.tipoDeAcesso !== "" ? novaEntrada.usuario.tipoDeAcesso : antigoDado.usuario.tipoDeAcessoEnum)
         : antigoDado.usuario.tipoDeAcessoEnum
