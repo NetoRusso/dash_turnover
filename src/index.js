@@ -7,9 +7,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // excluir localstorage
 
-// RH - {auth: "ODE0Ljk2Mi45MzYtMDY6MTIzNA=="  , cpf: "814.962.936-06" }
 // CEO - {auth: "MDAxLjIzNi45NTAtMDc6MTIzNA==", cpf: "001.236.950-07" }
-// GESTOR - {auth: "MTA5LjAzMC42NDctNDA6MTIzNA==" , cpf: "109.030.647-40" }
+// funcionario - { auth: "OTA1Ljg5MC41NjYtNzA6MTIzNA==", cpf: "905.890.566-70" }
+// Gestor - {auth: "MDE2LjY0NC4xNTYtMjk6MTIzNA==", cpf: "016.644.156-29" }
+
 
 localStorage.setItem("user", JSON.stringify({auth: "MDAxLjIzNi45NTAtMDc6MTIzNA==", cpf: "001.236.950-07" }))
 

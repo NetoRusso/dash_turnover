@@ -93,7 +93,6 @@ export default function Formulario({
       const { id, ...novo } = editar;
       switch (nomeTabela) {
         case 'Funcionario':
-          console.log(novo)
           setNovoFuncionario(formatoFuncionarioParaAlterar(novo))
           setId(id)
           break;
@@ -324,8 +323,8 @@ export default function Formulario({
                 <option value="">Escolha um departamento</option>
                 {
                   allDepartamento.length > 0 && (
-                    allDepartamento.map(({ id, nomeDepartamento }) => (
-                      <option value={id}>{nomeDepartamento}</option>
+                    allDepartamento.map(({ id, nomeDepartamento }, index) => (
+                      <option key={index} value={id}>{nomeDepartamento}</option>
                     ))
                   )
                 }
@@ -345,8 +344,8 @@ export default function Formulario({
                 <option value="">Escolha um cargo</option>
                 {
                   allCargo.length > 0 && (
-                    allCargo.map(({ id, nome }) => (
-                      <option value={id}>{nome}</option>
+                    allCargo.map(({ id, nome }, index) => (
+                      <option key={index} value={id}>{nome}</option>
                     ))
                   )
                 }

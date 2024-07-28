@@ -52,7 +52,7 @@ export const formatoFuncionarioParaAlterar = (dados) => {
   }
 };
 
-export const validadorAlteracaoFuncionario = (antigoDado, novaEntrada) => {
+export const validadorAlteracaoFuncionario = (novaEntrada, antigoDado) => {
   return {
     nome: antigoDado.nome !== novaEntrada.nome && novaEntrada.nome !== "" ? novaEntrada.nome : antigoDado.nome,
     nascimento: antigoDado.nascimento,
@@ -65,9 +65,7 @@ export const validadorAlteracaoFuncionario = (antigoDado, novaEntrada) => {
     usuario: {
       cpf: antigoDado.usuario.cpf,
       senha: 1234,
-      tipoDeAcesso: antigoDado.usuario.tipoDeAcessoEnum !== novaEntrada.usuario.tipoDeAcesso ?
-        (novaEntrada.usuario.tipoDeAcesso !== "" ? novaEntrada.usuario.tipoDeAcesso : antigoDado.usuario.tipoDeAcessoEnum)
-        : antigoDado.usuario.tipoDeAcessoEnum
+      tipoDeAcesso: antigoDado.usuario.tipoDeAcessoEnum !== novaEntrada.usuario.tipoDeAcesso && novaEntrada.usuario.tipoDeAcesso !== "" ? novaEntrada.usuario.tipoDeAcesso : antigoDado.usuario.tipoDeAcessoEnum
     }
   }
 }

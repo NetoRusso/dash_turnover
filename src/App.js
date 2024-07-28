@@ -71,8 +71,8 @@ function App() {
   useEffect(() => {
     async function fetchDate() {
       const local = JSON.parse(localStorage.getItem("user"));
-  
-      if (local) {   
+
+      if (local) {
         const db = await loginBancoDeDados(local.cpf, local.auth);
 
         if (db && 'nome' in db) {
@@ -89,10 +89,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    async function fetchData() {  
+    async function fetchData() {
       setDadosTabela(await getAllFuncionarioBancoDeDados());
     }
-  
+
     if (usuario !== null && inicio) {
       fetchData();
       setInicio(false);
@@ -162,11 +162,12 @@ function App() {
                       />
                       <Tabela // (tabela, palavra, tipo)
                         tabelaTitulos={tabelasGerais[indexTabela]}
-                        tabelaDados={pesquisa !== '' ? filterTabela(dadosTabela, pesquisa , tabelasGerais[indexTabela].nome) : dadosTabela}
+                        tabelaDados={pesquisa !== '' ? filterTabela(dadosTabela, pesquisa, tabelasGerais[indexTabela].nome) : dadosTabela}
                         tipoAcesso={usuario.usuario.tipoDeAcessoEnum}
                         botaoEditar={botaoEditar}
                         botaoVisual={vizualizar}
                         botaoExcluir={botaoExcluir}
+                        usuario={usuario}
                       />
                       <div className="btnSwitchTable">
                         <button
@@ -235,6 +236,14 @@ function App() {
                   )}
                 </>
               )}
+              {
+                usuario.usuario.tipoDeAcessoEnum === "FUNCIONARIO" && (
+                  <TabelaDeVisualizar
+                    nomeTabela={'Funcionario'}
+                    visualizar={usuario}
+                  />
+                )
+              }
             </section>
           </main>
         </>
