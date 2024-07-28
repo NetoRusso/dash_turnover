@@ -8,7 +8,7 @@ export default function TabelaDeVisualizar({ nomeTabela, visualizar }) {
 
   useEffect(() => {
     async function fetchData() {
-      if (visualizar.usuario.tipoDeAcessoEnum !== "FUNCIONARIO") {
+      if (nomeTabela !== "Funcionario") {
         setTabela(await getAllFuncionarioBancoDeDados());
       }
       if (nomeTabela === "Funcionario") {

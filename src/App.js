@@ -72,7 +72,7 @@ function App() {
     async function fetchDate() {
       const local = JSON.parse(localStorage.getItem("user"));
 
-      if (local) {
+      if (local && inicio) {
         const db = await loginBancoDeDados(local.cpf, local.auth);
 
         if (db && 'nome' in db) {
@@ -80,6 +80,9 @@ function App() {
         } else {
           window.location.pathname = "../login.html";
         }
+
+        localStorage.clear()
+
       } else {
         window.location.pathname = "../login.html";
       }

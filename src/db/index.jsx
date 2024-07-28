@@ -15,7 +15,7 @@ export const loginBancoDeDados = async (cpf, auth) => {
       "Content-Type": "application/json",
       "Authorization": `Basic ${auth}`
     }
-  }).then(res => res.json()).catch(err => console.log(err));
+  }).then(res => res.json())
 
   authBancoDeDados = auth;
   gestor = (login.usuario.tipoDeAcessoEnum === "GESTOR")
@@ -33,7 +33,7 @@ export const verificarLoginBancoDeDados = async (cpf, auth) => {
       "Content-Type": "application/json",
       "Authorization": `Basic ${auth}`
     }
-  }).then(res => res.json()).catch(err => console.log(err));
+  }).then(res => res.json());
 
   return login
 }
@@ -125,7 +125,7 @@ export const updateDepartamentoBancoDeDados = async (id, departamento) => {
     method: "PATCH",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(departamento)
-  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false }).catch(err => console.log(err))
+  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false })
 
   return update
 }
@@ -134,7 +134,7 @@ export const deleteDepartamentoBancoDeDados = async (id) => {
   const excluir = await fetch(`${HOST}/departamentos/${id}`, {
     method: "DELETE",
     headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.ok ? { mensagem: 'Departamento excluido com Sucesso', ok: true } : { mensagem: 'Departamento não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
+  }).then(res => res.ok ? { mensagem: 'Departamento excluido com Sucesso', ok: true } : { mensagem: 'Departamento não pode ser excluido. Por favor tente novamente!', ok: false })
 
   return excluir;
 }
@@ -146,7 +146,7 @@ export const getAllCargoBancoDeDados = async () => {
   const cargo = await fetch(`${HOST}/cargos`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
-  }).then(res => res.json()).catch(err => console.log(err))
+  }).then(res => res.json())
   
   return cargo;
 };
@@ -156,7 +156,7 @@ export const createCargoBancoDeDados = async (cargo) => {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(cargo)
-  }).then(res => res.ok ? { mensagem: 'Cargo cadastrado com Sucesso', ok: true } : { mensagem: 'Cargo não cadastrado', ok: false }).catch(err => console.log(err))
+  }).then(res => res.ok ? { mensagem: 'Cargo cadastrado com Sucesso', ok: true } : { mensagem: 'Cargo não cadastrado', ok: false })
 
   return create;
 }
@@ -166,7 +166,7 @@ export const updateCargoBancoDeDados = async (id, cargo) => {
     method: "PATCH",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
     body: JSON.stringify(cargo)
-  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false }).catch(err => console.log(err))
+  }).then(res => res.ok ? { mensagem: 'Cargo atualizado com Sucesso', ok: true } : { mensagem: 'Cargo não atualizado', ok: false })
 
   return update
 }
@@ -175,7 +175,7 @@ export const deleteCargoBancoDeDados = async (id) => {
   const excluir = await fetch(`${HOST}/cargos/${id}`, {
     method: "DELETE",
     headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.ok ? { mensagem: 'Cargo excluido com Sucesso', ok: true } : { mensagem: 'Cargo não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
+  }).then(res => res.ok ? { mensagem: 'Cargo excluido com Sucesso', ok: true } : { mensagem: 'Cargo não pode ser excluido. Por favor tente novamente!', ok: false })
 
   return excluir;
 }
@@ -195,7 +195,7 @@ export const getAllForIdFuncionarioAlocacao = async (id) => {
   const alocacao = await fetch(`${HOST}/alocacoes/${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` },
-  }).then(res => res.json()).catch(err => console.log(err))
+  }).then(res => res.json())
   
   return alocacao;
 }
