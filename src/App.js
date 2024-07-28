@@ -88,7 +88,6 @@ function App() {
     fetchDate();
   }, []);
 
-  
   useEffect(() => {
     async function fetchData() {  
       setDadosTabela(await getAllFuncionarioBancoDeDados());
@@ -147,7 +146,19 @@ function App() {
                         open={modalIsOpen}
                         nomeTabela={tabelasGerais[indexTabela].nome}
                         nome={visualizar ? visualizar : ""}
-                        botaoCancelar={() => setIsOpen(false)}
+                        botaoFecharModal={() => setIsOpen(false)}
+                        atualizandoTabela={
+                          async () => {
+                            if (tabelasGerais[indexTabela].nome === "Funcionario") {
+                              setDadosTabela(await getAllFuncionarioBancoDeDados());
+                            } else if (tabelasGerais[indexTabela].nome === "Departamento") {
+                              setDadosTabela(await getAllDepartamentoBancoDeDados());
+                            } else {
+                              setDadosTabela(await getAllCargoBancoDeDados());
+                            }
+                          }
+                        }
+                        id={visualizar ? visualizar.id : ''}
                       />
                       <Tabela // (tabela, palavra, tipo)
                         tabelaTitulos={tabelasGerais[indexTabela]}

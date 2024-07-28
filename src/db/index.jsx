@@ -1,13 +1,11 @@
-import Cargo from "../json/cargo.json";
-import Departamentos from "../json/departamentos.json";
 import { cpf } from 'cpf-cnpj-validator';
 import { validadorAlteracaoFuncionario } from "../util";
 
 const HOST = `http://localhost:8080`
 
 let authBancoDeDados;
-let cpfBancoDeDados;
-let gestor;
+let gestor = false;
+let usuario = {};
 
 // Login Credenciais do Banco de Dados
 export const loginBancoDeDados = async (cpf, auth) => {
@@ -20,8 +18,8 @@ export const loginBancoDeDados = async (cpf, auth) => {
   }).then(res => res.json()).catch(err => console.log(err));
 
   authBancoDeDados = auth;
-  cpfBancoDeDados = cpf;
   gestor = (login.usuario.tipoDeAcessoEnum === "GESTOR")
+  usuario = login
 
   if (login) {
     return { ...login, auth: auth };
@@ -44,12 +42,22 @@ export const verificarLoginBancoDeDados = async (cpf, auth) => {
 // Funcionarios
 
 export const getAllFuncionarioBancoDeDados = async () => {
-  const funcionario = await fetch(`${HOST}/funcionario`, {
+  let funcionarios = await fetch(`${HOST}/funcionario`, {
     method: "GET",
     headers: { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
-  }).then(res => res.json()).then(res => res.filter(e => e.usuario.tipoDeAcessoEnum !== "CEO")).catch(err => console.log(err));
+  }).then(res => res.json()).then(res => res.filter(({usuario}) => usuario.tipoDeAcessoEnum !== "CEO")).catch(err => console.log(err));
 
-  return funcionario;
+  funcionarios = funcionarios.filter(({id}) => usuario.id !== id)
+  
+  if (gestor && usuario.departamento !== null) {
+    funcionarios = funcionarios.filter(({ departamento }) => departamento !== null && departamento.id === usuario.departamento.id)
+  }
+
+  if (gestor && usuario.departamento === null) {
+    funcionarios = []
+  }
+
+  return funcionarios;
 };
 
 export const createFuncionarioBancoDeDados = async (funcionario) => {
@@ -83,6 +91,15 @@ export const updateFuncionariosBancoDeDados = async (id, funcionarioNovo, funcio
   return update
 }
 
+export const deleteFuncionarioBancoDeDados = async (id) => {
+  const excluir = await fetch(`${HOST}/funcionario/${id}`, {
+    method: "DELETE",
+    headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
+  }).then(res => res.ok ? { mensagem: 'Funcionario excluido com Sucesso', ok: true } : { mensagem: 'Funcionario não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
+
+  return excluir;
+}
+
 // Departamento
 
 export const getAllDepartamentoBancoDeDados = async () => {
@@ -114,8 +131,17 @@ export const updateDepartamentoBancoDeDados = async (id, departamento) => {
   return update
 }
 
-// Cargo
+export const deleteDepartamentoBancoDeDados = async (id) => {
+  const excluir = await fetch(`${HOST}/departamentos/${id}`, {
+    method: "DELETE",
+    headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
+  }).then(res => res.ok ? { mensagem: 'Departamento excluido com Sucesso', ok: true } : { mensagem: 'Departamento não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
 
+  return excluir;
+}
+
+
+// Cargo
 
 export const getAllCargoBancoDeDados = async () => {
   const cargo = await fetch(`${HOST}/cargos`, {
@@ -145,6 +171,16 @@ export const updateCargoBancoDeDados = async (id, cargo) => {
 
   return update
 }
+
+export const deleteCargoBancoDeDados = async (id) => {
+  const excluir = await fetch(`${HOST}/cargos/${id}`, {
+    method: "DELETE",
+    headers:  { "Content-Type": "application/json", "Authorization": `Basic ${authBancoDeDados}` }
+  }).then(res => res.ok ? { mensagem: 'Cargo excluido com Sucesso', ok: true } : { mensagem: 'Cargo não pode ser excluido. Por favor tente novamente!', ok: false }).catch(err => console.log(err))
+
+  return excluir;
+}
+
 
 export const quantidadeDeFuncionarioPorCargo = async (cargoNome) => {
   const funcionario = await getAllFuncionarioBancoDeDados();

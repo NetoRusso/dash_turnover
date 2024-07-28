@@ -265,7 +265,7 @@ export default function Formulario({
                 className="inputFormDash"
                 name="turno"
                 id="turno"
-                disabled={acao === "Editando" && tipoAcesso !== "GESTOR"}
+                disabled={acao === "Editando" && tipoAcesso === "RH"}
                 value={novoFuncionario.turno}
                 onChange={(e) => setNovoFuncionario({ ...novoFuncionario, [e.target.name]: e.target.value })}
               >
