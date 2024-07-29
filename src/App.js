@@ -78,13 +78,13 @@ function App() {
         if (db && 'nome' in db) {
           setUsuario(db);
         } else {
-          window.location.pathname = "../login.html";
+          window.location.pathname = "../pages/login.html";
         }
 
         localStorage.clear()
 
       } else {
-        window.location.pathname = "../login.html";
+        window.location.pathname = "../pages/login.html";
       }
     }
 

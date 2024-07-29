@@ -12,7 +12,7 @@ export default function Header({ nome }) {
         <div className="logoMenuBox logoMenuBoxDash">
           <nav className="navMenuDesktop navMenuDash">
             <ul className="navLinks navLinksDash">
-              <a className="logoffDash" href="#">
+              <a className="logoffDash" href="../pages/login.html">
                 Logoff
               </a>
             </ul>
@@ -20,14 +20,14 @@ export default function Header({ nome }) {
           <a className="logoMenuLink" href="#" title="Voltar a home">
             <img
               className="logoMenu"
-              src={Logo}
+              src="../../src/img/logo_Turnover.png"
               alt="Logo da empresa turnover"
             />
           </a>
         </div>
         <h3 className="saudacaoDash">Olá, {nome}</h3>
         <img
-          src={LogoCliente}
+          src="../../src/img/logo_atma.png"
           alt="logo da Atma"
           className="logoAtma"
         ></img>
@@ -35,18 +35,18 @@ export default function Header({ nome }) {
       <div className="cabecalhoSaudacaoDash">
         <h3 className="saudacaoDash">Olá, {nome}</h3>
         <img
-          src={LogoCliente}
+          src="../../src/img/logo_atma.png"
           alt="logo da Atma"
           className="logoAtma"
         />
       </div>
       <div onClick={() => setAberto(!aberto)} className={aberto ? "menuMobile active" : "menuMobile"} id="menuMobile">
-        <img src={LogoMenu} alt="Menu" />
+        <img src="../../src/img/iso_tipo_turnover.png" alt="Menu" />
       </div>
       <nav>
         <ul className={aberto ? "nav-links active": "nav-links"}>
           <li>
-            <a href="#">Logoff</a>
+            <a href="../pages/login.html">Logoff</a>
           </li>
         </ul>
       </nav>

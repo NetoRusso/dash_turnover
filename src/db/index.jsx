@@ -1,9 +1,7 @@
 import { cpf } from 'cpf-cnpj-validator';
 import { validadorAlteracaoFuncionario } from "../util";
-import { keyboard } from '@testing-library/user-event/dist/keyboard';
 
-const HOST = `http://localhost:8080`
-
+const HOST = `https://turnover-d4g6.onrender.com`
 let authBancoDeDados;
 let gestor = false;
 let usuario = {};
@@ -58,6 +56,7 @@ export const getAllFuncionarioBancoDeDados = async () => {
     funcionarios = []
   }
   
+  console.log(funcionarios);
   return funcionarios;
 };
 
@@ -67,6 +66,7 @@ export const createFuncionarioBancoDeDados = async (funcionario) => {
   }
 
   const login = await verificarLoginBancoDeDados(funcionario.usuario.cpf, authBancoDeDados)
+
 
   if (login) {
     return { mensagem: 'Usuario já cadastrado', ok: false }
@@ -79,8 +79,10 @@ export const createFuncionarioBancoDeDados = async (funcionario) => {
   }).then(res => res.ok ? { mensagem: `Funcionario cadastrado com sucesso`, ok: true } : { mensagem: 'funcionario não cadastrado', ok: false }).catch(err => console.log(err));
 
 
+
   return createFuncionario;
 };
+
 
 export const updateFuncionariosBancoDeDados = async (id, funcionarioNovo, funcionarioAntigo) => {
   const update = await fetch(`${HOST}/funcionario/atualizar/${id}`, {

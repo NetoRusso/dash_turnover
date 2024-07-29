@@ -17,6 +17,7 @@ export default function Formulario({
   const [id, setId] = useState(null);
   const [allCargo, setAllCargo] = useState([]);
   const [allDepartamento, setAllDepartamento] = useState([]);
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const [novoFuncionario, setNovoFuncionario] = useState({
     contratacao: pegaDataAtualDoContrato(),
@@ -62,6 +63,7 @@ export default function Formulario({
     if (create.ok) {
       setIsOpen(true)
     }
+    setBtnDisabled(false);
   }
 
   const createDepartamento = async () => {
@@ -74,6 +76,7 @@ export default function Formulario({
     if (create.ok) {
       setIsOpen(true)
     }
+    setBtnDisabled(false);
   }
 
   const createCargo = async () => {
@@ -86,6 +89,7 @@ export default function Formulario({
     if (create.ok) {
       setIsOpen(true)
     }
+    setBtnDisabled(false);
   }
 
   useEffect(() => {
@@ -125,6 +129,7 @@ export default function Formulario({
       if (update.ok) {
         setIsOpen(true);
       }
+      setBtnDisabled(false);
     }
   }
 
@@ -139,6 +144,7 @@ export default function Formulario({
       if (update.ok) {
         setIsOpen(true);
       }
+      setBtnDisabled(false);
     }
   }
 
@@ -153,6 +159,7 @@ export default function Formulario({
       if (update.ok) {
         setIsOpen(true);
       }
+      setBtnDisabled(false);
     }
   }
 
@@ -191,7 +198,9 @@ export default function Formulario({
             className="addNew addFuncionario"
             id="addFuncionario"
             onSubmit={(e) => {
-              e.preventDefault(); if (acao === "Adicionando") {
+              e.preventDefault(); 
+              setBtnDisabled(true)
+              if (acao === "Adicionando") {
                 createFuncionario()
               } else {
                 updateFuncionario()
@@ -352,10 +361,10 @@ export default function Formulario({
               </select>
             </div>
             {acao === "Adicionando" && (
-              <button type="submit" className="btnAddNew">Adicionar Funcionário</button>
+              <button type="submit" className="btnAddNew" disabled={btnDisabled}>Adicionar Funcionário</button>
             )}
             {acao === "Editando" && (
-              <button type="submit" className="btnAddNew">Editando Funcionário</button>
+              <button type="submit" className="btnAddNew" disabled={btnDisabled}>Salvar Funcionário</button>
             )}
             {
               mensagem !== "" && (
@@ -372,7 +381,9 @@ export default function Formulario({
             class="addNew addFuncionario"
             id="addFuncionario"
             onSubmit={(e) => {
-              e.preventDefault(); if (acao === "Adicionando") {
+              e.preventDefault(); 
+              setBtnDisabled(true);
+              if (acao === "Adicionando") {
                 createDepartamento()
               } else {
                 updateDepartamento()
@@ -422,10 +433,10 @@ export default function Formulario({
             </div>
 
             {acao === "Adicionando" && (
-              <button type="submit" class="btnAddNew">Adicionar Departamento</button>
+              <button type="submit" class="btnAddNew" disabled={btnDisabled}>Adicionar Departamento</button>
             )}
             {acao === "Editando" && (
-              <button type="submit" class="btnAddNew">Editando Departamento</button>
+              <button type="submit" class="btnAddNew" disabled={btnDisabled}>Salvar Departamento</button>
             )}
             {
               mensagem !== "" && (
@@ -442,7 +453,9 @@ export default function Formulario({
             class="addNew addFuncionario"
             id="addFuncionario"
             onSubmit={(e) => {
-              e.preventDefault(); if (acao === "Adicionando") {
+              e.preventDefault(); 
+              setBtnDisabled(true);
+              if (acao === "Adicionando") {
                 createCargo();
               } else {
                 updateCargo();
@@ -506,10 +519,10 @@ export default function Formulario({
               />
             </div>
             {acao === "Adicionando" && (
-              <button type="submit" class="btnAddNew">Adicionar cargo</button>
+              <button type="submit" class="btnAddNew" disabled={btnDisabled}>Adicionar cargo</button>
             )}
             {acao === "Editando" && (
-              <button type="submit" class="btnAddNew">Editar cargo</button>
+              <button type="submit" class="btnAddNew" disabled={btnDisabled}>Salvar cargo</button>
             )}
             {
               mensagem !== "" && (
